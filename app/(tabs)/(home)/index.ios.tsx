@@ -7,9 +7,9 @@ import React, { useState } from "react";
 import { colors, commonStyles, buttonStyles } from "@/styles/commonStyles";
 import { IconSymbol } from "@/components/IconSymbol";
 
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const IS_IPAD = Platform.OS === 'ios' && Platform.isPad;
-const CONTENT_MAX_WIDTH = IS_IPAD ? 700 : SCREEN_WIDTH;
+const CONTENT_MAX_WIDTH = IS_IPAD ? Math.min(SCREEN_WIDTH * 0.75, 800) : SCREEN_WIDTH - 48;
 
 type DecisionType = 'career' | 'financial' | 'life-change' | 'education' | 'personal-growth' | 'travel' | 'social' | 'ethical' | null;
 
@@ -38,36 +38,36 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   scrollContent: {
-    paddingHorizontal: IS_IPAD ? 48 : 24,
-    paddingBottom: 260,
-    paddingTop: 32,
+    paddingHorizontal: IS_IPAD ? 64 : 24,
+    paddingBottom: IS_IPAD ? 200 : 260,
+    paddingTop: IS_IPAD ? 48 : 32,
     alignSelf: 'center',
     width: '100%',
     maxWidth: CONTENT_MAX_WIDTH,
   },
   header: {
-    marginBottom: 48,
+    marginBottom: IS_IPAD ? 56 : 48,
   },
   headerTitle: {
-    fontSize: IS_IPAD ? 52 : 42,
+    fontSize: IS_IPAD ? 56 : 42,
     fontWeight: '900',
     color: colors.text,
-    marginBottom: 16,
+    marginBottom: IS_IPAD ? 20 : 16,
     letterSpacing: -1.2,
-    lineHeight: IS_IPAD ? 58 : 48,
+    lineHeight: IS_IPAD ? 64 : 48,
   },
   headerSubtitle: {
-    fontSize: IS_IPAD ? 20 : 18,
+    fontSize: IS_IPAD ? 22 : 18,
     color: colors.textSecondary,
-    lineHeight: 28,
+    lineHeight: IS_IPAD ? 32 : 28,
     fontWeight: '400',
     letterSpacing: -0.2,
   },
   welcomeCard: {
     backgroundColor: colors.card,
-    borderRadius: 28,
-    padding: IS_IPAD ? 40 : 32,
-    marginBottom: 24,
+    borderRadius: IS_IPAD ? 32 : 28,
+    padding: IS_IPAD ? 48 : 32,
+    marginBottom: IS_IPAD ? 28 : 24,
     shadowColor: colors.shadowDark,
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 1,
@@ -77,13 +77,13 @@ const styles = StyleSheet.create({
     borderColor: colors.cardBorderLight,
   },
   welcomeIconContainer: {
-    width: 72,
-    height: 72,
-    borderRadius: 22,
+    width: IS_IPAD ? 88 : 72,
+    height: IS_IPAD ? 88 : 72,
+    borderRadius: IS_IPAD ? 26 : 22,
     backgroundColor: colors.highlight,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 24,
+    marginBottom: IS_IPAD ? 28 : 24,
     shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
@@ -91,25 +91,25 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   welcomeTitle: {
-    fontSize: IS_IPAD ? 24 : 22,
+    fontSize: IS_IPAD ? 28 : 22,
     fontWeight: '800',
     color: colors.text,
-    marginBottom: 14,
+    marginBottom: IS_IPAD ? 18 : 14,
     letterSpacing: -0.4,
   },
   welcomeText: {
-    fontSize: IS_IPAD ? 18 : 16,
+    fontSize: IS_IPAD ? 20 : 16,
     color: colors.textSecondary,
-    lineHeight: 26,
+    lineHeight: IS_IPAD ? 30 : 26,
     letterSpacing: -0.1,
   },
   typeCard: {
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 24,
-    padding: IS_IPAD ? 32 : 28,
-    marginBottom: 18,
+    borderRadius: IS_IPAD ? 28 : 24,
+    padding: IS_IPAD ? 36 : 28,
+    marginBottom: IS_IPAD ? 22 : 18,
     flexDirection: 'row',
     alignItems: 'center',
     shadowColor: colors.shadowDark,
@@ -130,13 +130,13 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.02 }],
   },
   typeIconContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 18,
+    width: IS_IPAD ? 72 : 64,
+    height: IS_IPAD ? 72 : 64,
+    borderRadius: IS_IPAD ? 20 : 18,
     backgroundColor: colors.backgroundElevated,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 20,
+    marginRight: IS_IPAD ? 24 : 20,
     shadowColor: colors.shadowDark,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
@@ -155,23 +155,23 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   typeTitle: {
-    fontSize: IS_IPAD ? 22 : 20,
+    fontSize: IS_IPAD ? 24 : 20,
     fontWeight: '800',
     color: colors.text,
-    marginBottom: 8,
+    marginBottom: IS_IPAD ? 10 : 8,
     letterSpacing: -0.3,
   },
   typeDescription: {
-    fontSize: IS_IPAD ? 16 : 15,
+    fontSize: IS_IPAD ? 18 : 15,
     color: colors.textSecondary,
-    lineHeight: 22,
+    lineHeight: IS_IPAD ? 26 : 22,
     letterSpacing: -0.1,
   },
   exampleCard: {
     backgroundColor: colors.highlight,
-    borderRadius: 20,
-    padding: IS_IPAD ? 28 : 24,
-    marginBottom: 24,
+    borderRadius: IS_IPAD ? 24 : 20,
+    padding: IS_IPAD ? 32 : 24,
+    marginBottom: IS_IPAD ? 28 : 24,
     borderWidth: 1,
     borderColor: colors.primary + '30',
     shadowColor: colors.primary,
@@ -181,16 +181,16 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   exampleLabel: {
-    fontSize: 13,
+    fontSize: IS_IPAD ? 15 : 13,
     fontWeight: '900',
     color: colors.primary,
-    marginBottom: 12,
+    marginBottom: IS_IPAD ? 14 : 12,
     letterSpacing: 1.5,
   },
   exampleText: {
-    fontSize: IS_IPAD ? 18 : 16,
+    fontSize: IS_IPAD ? 20 : 16,
     color: colors.text,
-    lineHeight: 24,
+    lineHeight: IS_IPAD ? 28 : 24,
     fontStyle: 'italic',
     letterSpacing: -0.1,
   },
@@ -198,11 +198,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 18,
-    padding: 20,
-    fontSize: IS_IPAD ? 19 : 17,
+    borderRadius: IS_IPAD ? 20 : 18,
+    padding: IS_IPAD ? 24 : 20,
+    fontSize: IS_IPAD ? 20 : 17,
     color: colors.text,
-    marginBottom: 18,
+    marginBottom: IS_IPAD ? 22 : 18,
     shadowColor: colors.shadowDark,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
@@ -217,17 +217,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
   },
   textArea: {
-    minHeight: 140,
+    minHeight: IS_IPAD ? 160 : 140,
     textAlignVertical: 'top',
-    lineHeight: 26,
+    lineHeight: IS_IPAD ? 30 : 26,
   },
   optionCard: {
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 18,
-    padding: 22,
-    marginBottom: 14,
+    borderRadius: IS_IPAD ? 20 : 18,
+    padding: IS_IPAD ? 26 : 22,
+    marginBottom: IS_IPAD ? 18 : 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -239,25 +239,25 @@ const styles = StyleSheet.create({
   },
   optionText: {
     flex: 1,
-    fontSize: IS_IPAD ? 19 : 17,
+    fontSize: IS_IPAD ? 20 : 17,
     color: colors.text,
     fontWeight: '600',
     letterSpacing: -0.2,
   },
   deleteButton: {
-    padding: 10,
-    marginLeft: 14,
-    borderRadius: 12,
+    padding: IS_IPAD ? 12 : 10,
+    marginLeft: IS_IPAD ? 16 : 14,
+    borderRadius: IS_IPAD ? 14 : 12,
     backgroundColor: colors.backgroundElevated,
   },
   addButton: {
     backgroundColor: colors.backgroundAlt,
     borderWidth: 3,
     borderColor: colors.primary,
-    borderRadius: 18,
-    padding: 22,
+    borderRadius: IS_IPAD ? 20 : 18,
+    padding: IS_IPAD ? 26 : 22,
     alignItems: 'center',
-    marginBottom: 28,
+    marginBottom: IS_IPAD ? 32 : 28,
     shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.15,
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: colors.primary,
-    fontSize: IS_IPAD ? 19 : 17,
+    fontSize: IS_IPAD ? 20 : 17,
     fontWeight: '800',
     letterSpacing: 0.4,
   },
@@ -274,9 +274,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.cardBorder,
-    borderRadius: 24,
-    padding: IS_IPAD ? 32 : 28,
-    marginBottom: 24,
+    borderRadius: IS_IPAD ? 28 : 24,
+    padding: IS_IPAD ? 36 : 28,
+    marginBottom: IS_IPAD ? 28 : 24,
     shadowColor: colors.shadowDark,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 1,
@@ -284,20 +284,20 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   questionText: {
-    fontSize: IS_IPAD ? 20 : 18,
+    fontSize: IS_IPAD ? 22 : 18,
     fontWeight: '700',
     color: colors.text,
-    marginBottom: 18,
-    lineHeight: 28,
+    marginBottom: IS_IPAD ? 22 : 18,
+    lineHeight: IS_IPAD ? 32 : 28,
     letterSpacing: -0.3,
   },
   priorityCard: {
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 18,
-    padding: IS_IPAD ? 28 : 24,
-    marginBottom: 16,
+    borderRadius: IS_IPAD ? 20 : 18,
+    padding: IS_IPAD ? 32 : 24,
+    marginBottom: IS_IPAD ? 20 : 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -308,19 +308,19 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   priorityName: {
-    fontSize: IS_IPAD ? 20 : 18,
+    fontSize: IS_IPAD ? 22 : 18,
     fontWeight: '700',
     color: colors.text,
     letterSpacing: -0.2,
   },
   rankButtons: {
     flexDirection: 'row',
-    gap: 12,
+    gap: IS_IPAD ? 14 : 12,
   },
   rankButton: {
-    width: IS_IPAD ? 50 : 44,
-    height: IS_IPAD ? 50 : 44,
-    borderRadius: 12,
+    width: IS_IPAD ? 56 : 44,
+    height: IS_IPAD ? 56 : 44,
+    borderRadius: IS_IPAD ? 14 : 12,
     backgroundColor: colors.backgroundElevated,
     borderWidth: 2,
     borderColor: colors.cardBorder,
@@ -344,7 +344,7 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.1 }],
   },
   rankButtonText: {
-    fontSize: IS_IPAD ? 18 : 16,
+    fontSize: IS_IPAD ? 20 : 16,
     fontWeight: '800',
     color: colors.text,
   },
@@ -355,9 +355,9 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderWidth: 3,
     borderColor: colors.primary,
-    borderRadius: 28,
-    padding: IS_IPAD ? 40 : 32,
-    marginBottom: 28,
+    borderRadius: IS_IPAD ? 32 : 28,
+    padding: IS_IPAD ? 48 : 32,
+    marginBottom: IS_IPAD ? 32 : 28,
     shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 0.25,
@@ -365,41 +365,41 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   resultTitle: {
-    fontSize: IS_IPAD ? 32 : 28,
+    fontSize: IS_IPAD ? 36 : 28,
     fontWeight: '900',
     color: colors.text,
-    marginBottom: 12,
+    marginBottom: IS_IPAD ? 16 : 12,
     letterSpacing: -0.6,
   },
   resultSubtitle: {
-    fontSize: IS_IPAD ? 24 : 22,
+    fontSize: IS_IPAD ? 28 : 22,
     fontWeight: '800',
     color: colors.primary,
-    marginBottom: 32,
+    marginBottom: IS_IPAD ? 36 : 32,
     letterSpacing: -0.4,
-    lineHeight: 30,
+    lineHeight: IS_IPAD ? 36 : 30,
   },
   resultSection: {
-    marginBottom: 28,
+    marginBottom: IS_IPAD ? 32 : 28,
   },
   resultSectionTitle: {
-    fontSize: IS_IPAD ? 20 : 18,
+    fontSize: IS_IPAD ? 22 : 18,
     fontWeight: '800',
     color: colors.text,
-    marginBottom: 12,
+    marginBottom: IS_IPAD ? 14 : 12,
     letterSpacing: -0.3,
   },
   resultSectionText: {
-    fontSize: IS_IPAD ? 18 : 16,
+    fontSize: IS_IPAD ? 20 : 16,
     color: colors.textSecondary,
-    lineHeight: 26,
+    lineHeight: IS_IPAD ? 30 : 26,
     letterSpacing: -0.1,
   },
   confidenceBar: {
-    height: 12,
+    height: IS_IPAD ? 14 : 12,
     backgroundColor: colors.cardBorder,
-    borderRadius: 8,
-    marginTop: 14,
+    borderRadius: IS_IPAD ? 10 : 8,
+    marginTop: IS_IPAD ? 16 : 14,
     overflow: 'hidden',
     shadowColor: colors.shadowDark,
     shadowOffset: { width: 0, height: 2 },
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
   confidenceFill: {
     height: '100%',
     backgroundColor: colors.success,
-    borderRadius: 8,
+    borderRadius: IS_IPAD ? 10 : 8,
     shadowColor: colors.success,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
@@ -420,16 +420,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 100,
+    paddingVertical: IS_IPAD ? 120 : 100,
   },
   analysisIconContainer: {
-    width: 112,
-    height: 112,
-    borderRadius: 56,
+    width: IS_IPAD ? 128 : 112,
+    height: IS_IPAD ? 128 : 112,
+    borderRadius: IS_IPAD ? 64 : 56,
     backgroundColor: colors.highlight,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 32,
+    marginBottom: IS_IPAD ? 40 : 32,
     shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 8 },
     shadowOpacity: 0.25,
@@ -437,18 +437,18 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   analysisTitle: {
-    fontSize: IS_IPAD ? 28 : 24,
+    fontSize: IS_IPAD ? 32 : 24,
     fontWeight: '800',
     color: colors.text,
     textAlign: 'center',
-    marginBottom: 14,
+    marginBottom: IS_IPAD ? 18 : 14,
     letterSpacing: -0.4,
   },
   analysisSubtitle: {
-    fontSize: IS_IPAD ? 19 : 17,
+    fontSize: IS_IPAD ? 22 : 17,
     color: colors.textSecondary,
     textAlign: 'center',
-    lineHeight: 26,
+    lineHeight: IS_IPAD ? 30 : 26,
     letterSpacing: -0.1,
   },
   buttonContainer: {
@@ -457,10 +457,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: colors.background,
-    paddingHorizontal: IS_IPAD ? 48 : 24,
-    paddingTop: 24,
-    paddingBottom: IS_IPAD ? 48 : 110,
-    gap: 14,
+    paddingHorizontal: IS_IPAD ? 64 : 24,
+    paddingTop: IS_IPAD ? 28 : 24,
+    paddingBottom: IS_IPAD ? 56 : 110,
+    gap: IS_IPAD ? 16 : 14,
     borderTopWidth: 1,
     borderTopColor: colors.cardBorder,
     zIndex: 1001,
@@ -475,12 +475,12 @@ const styles = StyleSheet.create({
   buttonInner: {
     width: '100%',
     maxWidth: CONTENT_MAX_WIDTH,
-    gap: 14,
+    gap: IS_IPAD ? 16 : 14,
   },
   primaryButton: {
     backgroundColor: colors.primary,
-    paddingVertical: 20,
-    borderRadius: 18,
+    paddingVertical: IS_IPAD ? 24 : 20,
+    borderRadius: IS_IPAD ? 20 : 18,
     alignItems: 'center',
     shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 8 },
@@ -496,7 +496,7 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: '#FFFFFF',
-    fontSize: IS_IPAD ? 20 : 18,
+    fontSize: IS_IPAD ? 22 : 18,
     fontWeight: '800',
     letterSpacing: 0.5,
   },
@@ -504,14 +504,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundAlt,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    paddingVertical: 20,
-    borderRadius: 18,
+    paddingVertical: IS_IPAD ? 24 : 20,
+    borderRadius: IS_IPAD ? 20 : 18,
     alignItems: 'center',
     pointerEvents: 'auto',
   },
   secondaryButtonText: {
     color: colors.text,
-    fontSize: IS_IPAD ? 20 : 18,
+    fontSize: IS_IPAD ? 22 : 18,
     fontWeight: '700',
     letterSpacing: 0.3,
   },
@@ -599,6 +599,7 @@ export default function HomeScreen() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
 
   console.log('Reality Check - Current step:', step);
+  console.log('Reality Check - Platform:', Platform.OS, 'isPad:', IS_IPAD);
 
   const handleStartDecision = () => {
     console.log('User tapped Start New Decision');
@@ -979,7 +980,7 @@ export default function HomeScreen() {
                 <IconSymbol 
                   ios_icon_name="lightbulb.fill"
                   android_material_icon_name="lightbulb" 
-                  size={40} 
+                  size={IS_IPAD ? 48 : 40} 
                   color={colors.primary}
                 />
               </View>
@@ -1017,7 +1018,7 @@ export default function HomeScreen() {
                     <IconSymbol
                       ios_icon_name={type.icon}
                       android_material_icon_name={type.icon}
-                      size={32}
+                      size={IS_IPAD ? 36 : 32}
                       color={isSelected ? '#FFFFFF' : colors.primary}
                     />
                   </View>
@@ -1061,9 +1062,9 @@ export default function HomeScreen() {
               <IconSymbol 
                 ios_icon_name="info.circle.fill"
                 android_material_icon_name="info" 
-                size={28} 
+                size={IS_IPAD ? 32 : 28} 
                 color={colors.primary}
-                style={{ marginBottom: 14 }}
+                style={{ marginBottom: IS_IPAD ? 16 : 14 }}
               />
               <Text style={styles.welcomeText}>
                 Be specific. A clear question leads to a clear answer.
@@ -1092,7 +1093,7 @@ export default function HomeScreen() {
                   <IconSymbol
                     ios_icon_name="trash.fill"
                     android_material_icon_name="delete"
-                    size={24}
+                    size={IS_IPAD ? 28 : 24}
                     color={colors.danger}
                   />
                 </TouchableOpacity>
@@ -1180,7 +1181,7 @@ export default function HomeScreen() {
               <IconSymbol 
                 ios_icon_name="brain.head.profile"
                 android_material_icon_name="psychology" 
-                size={64} 
+                size={IS_IPAD ? 72 : 64} 
                 color={colors.primary}
               />
             </View>
@@ -1221,11 +1222,11 @@ export default function HomeScreen() {
               <IconSymbol 
                 ios_icon_name="info.circle"
                 android_material_icon_name="info" 
-                size={26} 
+                size={IS_IPAD ? 30 : 26} 
                 color={colors.textSecondary}
-                style={{ marginBottom: 14 }}
+                style={{ marginBottom: IS_IPAD ? 16 : 14 }}
               />
-              <Text style={[styles.welcomeText, { fontSize: IS_IPAD ? 16 : 14 }]}>
+              <Text style={[styles.welcomeText, { fontSize: IS_IPAD ? 18 : 14 }]}>
                 This is a thinking tool, not professional advice. For legal, medical, or financial decisions, consult qualified professionals.
               </Text>
             </View>
