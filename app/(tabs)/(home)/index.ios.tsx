@@ -20,6 +20,14 @@ interface Priority {
   rank: number;
 }
 
+interface AnalysisResult {
+  recommendedOption: string;
+  confidence: number;
+  reasoning: string;
+  statusQuoWarning: string;
+  nextStep: string;
+}
+
 type Step = 'welcome' | 'select-type' | 'define-decision' | 'add-options' | 'guided-questions' | 'priorities' | 'analysis' | 'result';
 
 const styles = StyleSheet.create({
@@ -582,6 +590,7 @@ export default function HomeScreen() {
   const [priorities, setPriorities] = useState<Priority[]>(
     priorityOptions.map(p => ({ ...p, rank: 0 }))
   );
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
 
   console.log('Reality Check - Current step:', step);
 
@@ -646,6 +655,10 @@ export default function HomeScreen() {
   const handleAnalyze = () => {
     console.log('User analyzing decision');
     setStep('analysis');
+    
+    const result = calculateRecommendation();
+    setAnalysisResult(result);
+    
     setTimeout(() => {
       setStep('result');
     }, 2000);
@@ -660,6 +673,7 @@ export default function HomeScreen() {
     setNewOptionText('');
     setAnswers({});
     setPriorities(priorityOptions.map(p => ({ ...p, rank: 0 })));
+    setAnalysisResult(null);
   };
 
   const getQuestions = () => {
@@ -706,15 +720,145 @@ export default function HomeScreen() {
     return baseQuestions;
   };
 
-  const calculateRecommendation = () => {
+  const calculateRecommendation = (): AnalysisResult => {
+    console.log('Calculating recommendation with options:', options.length);
+    console.log('Priorities:', priorities);
+    console.log('Answers:', Object.keys(answers).length);
+
     if (options.length === 0) {
-      const optionText = 'Take action';
-      return optionText;
+      return {
+        recommendedOption: 'Take action',
+        confidence: 50,
+        reasoning: 'Without specific options to evaluate, the general recommendation is to take action rather than remain in indecision.',
+        statusQuoWarning: 'Staying in analysis paralysis prevents progress. Define clear options to move forward.',
+        nextStep: 'Within the next 24 hours: Write down 2-3 specific options you are considering.',
+      };
+    }
+
+    const optionScores = options.map(option => {
+      let score = 0;
+      let scoreBreakdown = {
+        priorityAlignment: 0,
+        positiveOutcome: 0,
+        managedRisk: 0,
+        worthCost: 0,
+        futureRegret: 0,
+      };
+
+      const totalPriorityWeight = priorities.reduce((sum, p) => sum + p.rank, 0);
+      
+      if (totalPriorityWeight > 0) {
+        const highestPriority = priorities.reduce((max, p) => p.rank > max.rank ? p : max, priorities[0]);
+        const priorityScore = (highestPriority.rank / 5) * 25;
+        scoreBreakdown.priorityAlignment = priorityScore;
+        score += priorityScore;
+      }
+
+      const outcomeAnswer = answers['outcome'] || '';
+      const positiveWords = ['good', 'positive', 'success', 'growth', 'better', 'improve', 'opportunity', 'benefit', 'gain', 'achieve'];
+      const negativeWords = ['bad', 'negative', 'fail', 'worse', 'decline', 'loss', 'problem', 'difficult', 'struggle'];
+      
+      const positiveCount = positiveWords.filter(word => outcomeAnswer.toLowerCase().includes(word)).length;
+      const negativeCount = negativeWords.filter(word => outcomeAnswer.toLowerCase().includes(word)).length;
+      
+      if (outcomeAnswer.length > 20) {
+        const outcomeScore = Math.min(20, (positiveCount * 5) - (negativeCount * 3));
+        scoreBreakdown.positiveOutcome = outcomeScore;
+        score += outcomeScore;
+      }
+
+      const riskAnswer = answers['risk'] || '';
+      const lowRiskWords = ['manageable', 'small', 'minimal', 'low', 'acceptable', 'reversible'];
+      const highRiskWords = ['catastrophic', 'severe', 'major', 'irreversible', 'dangerous'];
+      
+      const lowRiskCount = lowRiskWords.filter(word => riskAnswer.toLowerCase().includes(word)).length;
+      const highRiskCount = highRiskWords.filter(word => riskAnswer.toLowerCase().includes(word)).length;
+      
+      if (riskAnswer.length > 15) {
+        const riskScore = Math.min(20, (lowRiskCount * 5) - (highRiskCount * 4));
+        scoreBreakdown.managedRisk = riskScore;
+        score += riskScore;
+      }
+
+      const costAnswer = answers['cost'] || '';
+      const affordableWords = ['affordable', 'reasonable', 'worth', 'manageable', 'acceptable'];
+      const expensiveWords = ['expensive', 'costly', 'sacrifice', 'overwhelming', 'too much'];
+      
+      const affordableCount = affordableWords.filter(word => costAnswer.toLowerCase().includes(word)).length;
+      const expensiveCount = expensiveWords.filter(word => costAnswer.toLowerCase().includes(word)).length;
+      
+      if (costAnswer.length > 15) {
+        const costScore = Math.min(15, (affordableCount * 4) - (expensiveCount * 3));
+        scoreBreakdown.worthCost = costScore;
+        score += costScore;
+      }
+
+      const regretAnswer = answers['regret'] || '';
+      const optionMentioned = regretAnswer.toLowerCase().includes(option.text.toLowerCase().substring(0, 15));
+      
+      if (regretAnswer.length > 20 && optionMentioned) {
+        scoreBreakdown.futureRegret = 20;
+        score += 20;
+      }
+
+      const answerCompleteness = Object.keys(answers).length / getQuestions().length;
+      score = score * (0.7 + (answerCompleteness * 0.3));
+
+      console.log(`Option "${option.text}" score: ${score.toFixed(1)}`, scoreBreakdown);
+
+      return {
+        option,
+        score,
+        scoreBreakdown,
+      };
+    });
+
+    optionScores.sort((a, b) => b.score - a.score);
+    
+    const bestOption = optionScores[0];
+    const secondBestOption = optionScores[1];
+    
+    const maxPossibleScore = 100;
+    const confidencePercentage = Math.min(95, Math.max(35, Math.round((bestOption.score / maxPossibleScore) * 100)));
+    
+    let confidenceAdjustment = 0;
+    if (secondBestOption && bestOption.score - secondBestOption.score < 10) {
+      confidenceAdjustment = -15;
     }
     
-    const firstOption = options[0];
-    const optionText = firstOption.text;
-    return optionText;
+    const finalConfidence = Math.max(35, Math.min(95, confidencePercentage + confidenceAdjustment));
+
+    const topPriorities = priorities
+      .filter(p => p.rank >= 4)
+      .map(p => p.name.toLowerCase())
+      .join(' and ');
+
+    const reasoning = topPriorities
+      ? `Based on your priorities (${topPriorities}) and your answers to the guided questions, this option shows the strongest alignment with what matters most to you. Your responses indicate positive outcomes with manageable risks.`
+      : 'Based on your answers to the guided questions, this option demonstrates the most favorable balance of potential outcomes, manageable risks, and acceptable costs.';
+
+    const statusQuoAnswer = answers['nothing'] || '';
+    const statusQuoWarning = statusQuoAnswer.length > 20
+      ? `If you do nothing: ${statusQuoAnswer.substring(0, 150)}${statusQuoAnswer.length > 150 ? '...' : ''}`
+      : 'Maintaining the status quo may lead to missed opportunities. The current situation is unlikely to improve without deliberate action.';
+
+    const nextStep = decisionType === 'career'
+      ? 'Within the next 3 days: Schedule a conversation with someone who has made a similar decision. Ask them what they wish they had known.'
+      : decisionType === 'financial'
+      ? 'Within the next 5 days: Create a detailed budget or financial projection for this decision. Include best-case and worst-case scenarios.'
+      : decisionType === 'education'
+      ? 'Within the next week: Research and contact 2-3 people who have completed this educational path. Ask about their experience and outcomes.'
+      : 'Within the next 3 days: Write down 3 specific questions you need answered before committing. Then identify who or what can answer them.';
+
+    console.log('Final recommendation:', bestOption.option.text, 'with confidence:', finalConfidence);
+
+    return {
+      recommendedOption: bestOption.option.text,
+      confidence: finalConfidence,
+      reasoning,
+      statusQuoWarning,
+      nextStep,
+    };
   };
 
   const getSelectedTypeExample = () => {
@@ -728,8 +872,6 @@ export default function HomeScreen() {
   const canContinueFromQuestions = Object.keys(answers).length >= 3;
   const canAnalyze = priorities.some(p => p.rank > 0);
 
-  const recommendedOption = calculateRecommendation();
-  const confidence = 78;
   const selectedTypeExample = getSelectedTypeExample();
 
   return (
@@ -971,7 +1113,7 @@ export default function HomeScreen() {
           </View>
         )}
 
-        {step === 'result' && (
+        {step === 'result' && analysisResult && (
           <View>
             <View style={styles.header}>
               <Text style={styles.headerTitle}>Your Reality Check</Text>
@@ -979,34 +1121,34 @@ export default function HomeScreen() {
 
             <View style={styles.resultCard}>
               <Text style={styles.resultTitle}>Recommendation</Text>
-              <Text style={styles.resultSubtitle}>{recommendedOption}</Text>
+              <Text style={styles.resultSubtitle}>{analysisResult.recommendedOption}</Text>
 
               <View style={styles.resultSection}>
                 <Text style={styles.resultSectionTitle}>Confidence Level</Text>
-                <Text style={styles.resultSectionText}>{confidence}% confident</Text>
+                <Text style={styles.resultSectionText}>{analysisResult.confidence}% confident</Text>
                 <View style={styles.confidenceBar}>
-                  <View style={[styles.confidenceFill, { width: `${confidence}%` }]} />
+                  <View style={[styles.confidenceFill, { width: `${analysisResult.confidence}%` }]} />
                 </View>
               </View>
 
               <View style={styles.resultSection}>
                 <Text style={styles.resultSectionTitle}>Why This Choice</Text>
                 <Text style={styles.resultSectionText}>
-                  Based on your priorities and answers, this option aligns best with your values of growth and stability. It offers a balanced approach with manageable risks.
+                  {analysisResult.reasoning}
                 </Text>
               </View>
 
               <View style={styles.resultSection}>
                 <Text style={styles.resultSectionTitle}>If You Do Nothing</Text>
                 <Text style={styles.resultSectionText}>
-                  Maintaining the status quo may lead to missed opportunities and potential regret. The current situation is unlikely to improve without action.
+                  {analysisResult.statusQuoWarning}
                 </Text>
               </View>
 
               <View style={styles.resultSection}>
                 <Text style={styles.resultSectionTitle}>Next Step</Text>
                 <Text style={styles.resultSectionText}>
-                  Within the next 3 days: Research and write down 3 specific questions you need answered before committing to this decision.
+                  {analysisResult.nextStep}
                 </Text>
               </View>
             </View>
