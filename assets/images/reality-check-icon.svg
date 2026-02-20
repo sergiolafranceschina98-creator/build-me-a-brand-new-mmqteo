@@ -1,0 +1,58 @@
+
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f0f1e;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="1024" height="1024" rx="226" fill="url(#bgGradient)"/>
+  
+  <!-- Outer glow circle -->
+  <circle cx="512" cy="512" r="280" fill="url(#iconGradient)" opacity="0.15" filter="url(#glow)"/>
+  
+  <!-- Main checkmark circle -->
+  <circle cx="512" cy="512" r="240" fill="none" stroke="url(#iconGradient)" stroke-width="24" opacity="0.3"/>
+  <circle cx="512" cy="512" r="200" fill="none" stroke="url(#iconGradient)" stroke-width="32"/>
+  
+  <!-- Stylized checkmark with decision paths -->
+  <path d="M 380 512 L 460 592 L 680 372" 
+        stroke="url(#iconGradient)" 
+        stroke-width="48" 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        fill="none"
+        filter="url(#glow)"/>
+  
+  <!-- Decision node dots -->
+  <circle cx="380" cy="512" r="20" fill="url(#accentGradient)"/>
+  <circle cx="460" cy="592" r="20" fill="url(#accentGradient)"/>
+  <circle cx="680" cy="372" r="20" fill="url(#accentGradient)"/>
+  
+  <!-- Subtle connecting lines (decision paths) -->
+  <line x1="320" y1="480" x2="380" y2="512" stroke="url(#iconGradient)" stroke-width="4" opacity="0.5"/>
+  <line x1="320" y1="544" x2="380" y2="512" stroke="url(#iconGradient)" stroke-width="4" opacity="0.5"/>
+  <line x1="680" y1="372" x2="740" y2="340" stroke="url(#iconGradient)" stroke-width="4" opacity="0.5"/>
+  <line x1="680" y1="372" x2="740" y2="404" stroke="url(#iconGradient)" stroke-width="4" opacity="0.5"/>
+  
+  <!-- Inner accent circle -->
+  <circle cx="512" cy="512" r="140" fill="none" stroke="url(#accentGradient)" stroke-width="3" opacity="0.4"/>
+</svg>

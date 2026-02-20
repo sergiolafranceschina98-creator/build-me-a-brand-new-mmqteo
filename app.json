@@ -1,34 +1,35 @@
+
 {
   "expo": {
-    "name": "build-me-a-brand-new",
-    "slug": "build-me-a-brand-new",
+    "name": "Reality Check",
+    "slug": "reality-check",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/app-icon-nmc.png",
+    "icon": "./assets/images/reality-check-icon.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/app-icon-nmc.png",
+      "image": "./assets/images/reality-check-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#000000"
+      "backgroundColor": "#1a1a2e"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.Natively",
+      "bundleIdentifier": "com.anonymous.RealityCheck",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/app-icon-nmc.png",
-        "backgroundColor": "#000000"
+        "foregroundImage": "./assets/images/reality-check-icon.png",
+        "backgroundColor": "#1a1a2e"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.Natively"
+      "package": "com.anonymous.RealityCheck"
     },
     "web": {
-      "favicon": "./assets/images/final_quest_240x240.png",
+      "favicon": "./assets/images/reality-check-icon.png",
       "bundler": "metro"
     },
     "plugins": [
@@ -36,7 +37,7 @@
       "expo-router",
       "expo-web-browser"
     ],
-    "scheme": "build-me-a-brand-new",
+    "scheme": "reality-check",
     "experiments": {
       "typedRoutes": true
     },
