@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingBottom: 200,
+    paddingBottom: 250,
     paddingTop: 20,
   },
   header: {
