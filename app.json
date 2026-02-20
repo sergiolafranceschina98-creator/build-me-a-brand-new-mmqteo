@@ -1,3 +1,4 @@
+
 {
   "expo": {
     "name": "Reality Check",
@@ -31,10 +32,15 @@
           "UIInterfaceOrientationPortraitUpsideDown",
           "UIInterfaceOrientationLandscapeLeft",
           "UIInterfaceOrientationLandscapeRight"
-        ]
+        ],
+        "UILaunchStoryboardName": "SplashScreen",
+        "UIViewControllerBasedStatusBarAppearance": true
       },
       "icon": "./assets/images/app-icon-vqz.png",
-      "requireFullScreen": false
+      "requireFullScreen": false,
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {

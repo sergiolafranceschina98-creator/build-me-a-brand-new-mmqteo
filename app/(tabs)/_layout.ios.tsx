@@ -1,31 +1,41 @@
 
 import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Platform } from 'react-native';
-import { Stack } from 'expo-router';
 
-// Use Stack navigation for better iPad compatibility and broader iOS version support
+const Stack = createNativeStackNavigator();
+
 export default function TabLayout() {
+  console.log('iOS Tab Layout initialized for iPad support');
+  
   return (
-    <Stack
+    <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        animation: 'slide_from_right',
         gestureEnabled: true,
-        gestureDirection: 'horizontal',
+        fullScreenGestureEnabled: true,
+        animation: 'default',
+        contentStyle: {
+          backgroundColor: 'transparent',
+        },
       }}
     >
       <Stack.Screen 
         name="(home)" 
         options={{
           headerShown: false,
+          title: 'Reality Check',
         }}
       />
       <Stack.Screen 
         name="profile" 
         options={{
-          headerShown: false,
+          headerShown: true,
+          title: 'Profile',
+          headerBackTitle: 'Back',
+          headerLargeTitle: Platform.isPad,
         }}
       />
-    </Stack>
+    </Stack.Navigator>
   );
 }

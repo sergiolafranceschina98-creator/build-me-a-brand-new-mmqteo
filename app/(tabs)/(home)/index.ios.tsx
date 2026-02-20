@@ -1,17 +1,13 @@
 
-import { useTheme } from "@react-navigation/native";
-import { Stack } from "expo-router";
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, TextInput, Platform, Dimensions } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
-import { colors, commonStyles, buttonStyles } from "@/styles/commonStyles";
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, TextInput, Platform, Dimensions } from "react-native";
+import { Stack } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useTheme } from "@react-navigation/native";
 import { IconSymbol } from "@/components/IconSymbol";
+import { colors, commonStyles, buttonStyles } from "@/styles/commonStyles";
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-const IS_IPAD = Platform.OS === 'ios' && Platform.isPad;
-const CONTENT_MAX_WIDTH = IS_IPAD ? Math.min(SCREEN_WIDTH * 0.75, 800) : SCREEN_WIDTH - 48;
-
-type DecisionType = 'career' | 'financial' | 'life-change' | 'education' | 'personal-growth' | 'travel' | 'social' | 'ethical' | null;
+type DecisionType = 'career' | 'relationship' | 'financial' | 'life-change' | null;
 
 interface DecisionOption {
   id: string;
@@ -30,7 +26,11 @@ interface AnalysisResult {
   reasoning: string;
 }
 
-type Step = 'welcome' | 'select-type' | 'define-decision' | 'add-options' | 'guided-questions' | 'priorities' | 'analysis' | 'result';
+type Step = 'welcome' | 'type' | 'define' | 'options' | 'questions' | 'priorities' | 'analysis';
+
+const IS_IPAD = Platform.isPad;
+const CONTENT_MAX_WIDTH = IS_IPAD ? 800 : undefined;
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
@@ -38,609 +38,290 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   scrollContent: {
-    paddingHorizontal: IS_IPAD ? 64 : 24,
-    paddingBottom: IS_IPAD ? 200 : 260,
-    paddingTop: IS_IPAD ? 48 : 32,
-    alignSelf: 'center',
+    flexGrow: 1,
+    paddingHorizontal: IS_IPAD ? 40 : 20,
+    paddingVertical: IS_IPAD ? 32 : 20,
+    alignItems: IS_IPAD ? 'center' : 'stretch',
+  },
+  contentWrapper: {
     width: '100%',
     maxWidth: CONTENT_MAX_WIDTH,
   },
   header: {
-    marginBottom: IS_IPAD ? 56 : 48,
-  },
-  headerTitle: {
-    fontSize: IS_IPAD ? 56 : 42,
-    fontWeight: '900',
-    color: colors.text,
-    marginBottom: IS_IPAD ? 20 : 16,
-    letterSpacing: -1.2,
-    lineHeight: IS_IPAD ? 64 : 48,
-  },
-  headerSubtitle: {
-    fontSize: IS_IPAD ? 22 : 18,
-    color: colors.textSecondary,
-    lineHeight: IS_IPAD ? 32 : 28,
-    fontWeight: '400',
-    letterSpacing: -0.2,
-  },
-  welcomeCard: {
-    backgroundColor: colors.card,
-    borderRadius: IS_IPAD ? 32 : 28,
-    padding: IS_IPAD ? 48 : 32,
-    marginBottom: IS_IPAD ? 28 : 24,
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 1,
-    shadowRadius: 32,
-    elevation: 6,
-    borderWidth: 1,
-    borderColor: colors.cardBorderLight,
-  },
-  welcomeIconContainer: {
-    width: IS_IPAD ? 88 : 72,
-    height: IS_IPAD ? 88 : 72,
-    borderRadius: IS_IPAD ? 26 : 22,
-    backgroundColor: colors.highlight,
+    marginBottom: IS_IPAD ? 40 : 24,
     alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: IS_IPAD ? 28 : 24,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 3,
   },
-  welcomeTitle: {
-    fontSize: IS_IPAD ? 28 : 22,
-    fontWeight: '800',
-    color: colors.text,
-    marginBottom: IS_IPAD ? 18 : 14,
-    letterSpacing: -0.4,
-  },
-  welcomeText: {
-    fontSize: IS_IPAD ? 20 : 16,
-    color: colors.textSecondary,
-    lineHeight: IS_IPAD ? 30 : 26,
-    letterSpacing: -0.1,
-  },
-  typeCard: {
-    backgroundColor: colors.card,
-    borderWidth: 2,
-    borderColor: colors.cardBorder,
-    borderRadius: IS_IPAD ? 28 : 24,
-    padding: IS_IPAD ? 36 : 28,
-    marginBottom: IS_IPAD ? 22 : 18,
-    flexDirection: 'row',
-    alignItems: 'center',
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.6,
-    shadowRadius: 16,
-    elevation: 3,
-  },
-  typeCardSelected: {
-    borderColor: colors.primary,
-    borderWidth: 3,
-    backgroundColor: colors.highlight,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 24,
-    elevation: 6,
-    transform: [{ scale: 1.02 }],
-  },
-  typeIconContainer: {
-    width: IS_IPAD ? 72 : 64,
-    height: IS_IPAD ? 72 : 64,
-    borderRadius: IS_IPAD ? 20 : 18,
-    backgroundColor: colors.backgroundElevated,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: IS_IPAD ? 24 : 20,
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  typeIconContainerSelected: {
-    backgroundColor: colors.primary,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 12,
-    elevation: 4,
-  },
-  typeContent: {
-    flex: 1,
-  },
-  typeTitle: {
-    fontSize: IS_IPAD ? 24 : 20,
-    fontWeight: '800',
-    color: colors.text,
-    marginBottom: IS_IPAD ? 10 : 8,
-    letterSpacing: -0.3,
-  },
-  typeDescription: {
-    fontSize: IS_IPAD ? 18 : 15,
-    color: colors.textSecondary,
-    lineHeight: IS_IPAD ? 26 : 22,
-    letterSpacing: -0.1,
-  },
-  exampleCard: {
-    backgroundColor: colors.highlight,
-    borderRadius: IS_IPAD ? 24 : 20,
-    padding: IS_IPAD ? 32 : 24,
-    marginBottom: IS_IPAD ? 28 : 24,
-    borderWidth: 1,
-    borderColor: colors.primary + '30',
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 12,
-    elevation: 2,
-  },
-  exampleLabel: {
-    fontSize: IS_IPAD ? 15 : 13,
-    fontWeight: '900',
-    color: colors.primary,
-    marginBottom: IS_IPAD ? 14 : 12,
-    letterSpacing: 1.5,
-  },
-  exampleText: {
-    fontSize: IS_IPAD ? 20 : 16,
-    color: colors.text,
-    lineHeight: IS_IPAD ? 28 : 24,
-    fontStyle: 'italic',
-    letterSpacing: -0.1,
-  },
-  input: {
-    backgroundColor: colors.card,
-    borderWidth: 2,
-    borderColor: colors.cardBorder,
-    borderRadius: IS_IPAD ? 20 : 18,
-    padding: IS_IPAD ? 24 : 20,
-    fontSize: IS_IPAD ? 20 : 17,
-    color: colors.text,
-    marginBottom: IS_IPAD ? 22 : 18,
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 12,
-    elevation: 2,
-    letterSpacing: -0.1,
-  },
-  inputFocused: {
-    borderColor: colors.primary,
-    borderWidth: 3,
-    shadowColor: colors.primary,
-    shadowOpacity: 0.2,
-  },
-  textArea: {
-    minHeight: IS_IPAD ? 160 : 140,
-    textAlignVertical: 'top',
-    lineHeight: IS_IPAD ? 30 : 26,
-  },
-  optionCard: {
-    backgroundColor: colors.card,
-    borderWidth: 2,
-    borderColor: colors.cardBorder,
-    borderRadius: IS_IPAD ? 20 : 18,
-    padding: IS_IPAD ? 26 : 22,
-    marginBottom: IS_IPAD ? 18 : 14,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.5,
-    shadowRadius: 12,
-    elevation: 3,
-  },
-  optionText: {
-    flex: 1,
-    fontSize: IS_IPAD ? 20 : 17,
-    color: colors.text,
-    fontWeight: '600',
-    letterSpacing: -0.2,
-  },
-  deleteButton: {
-    padding: IS_IPAD ? 12 : 10,
-    marginLeft: IS_IPAD ? 16 : 14,
-    borderRadius: IS_IPAD ? 14 : 12,
-    backgroundColor: colors.backgroundElevated,
-  },
-  addButton: {
-    backgroundColor: colors.backgroundAlt,
-    borderWidth: 3,
-    borderColor: colors.primary,
-    borderRadius: IS_IPAD ? 20 : 18,
-    padding: IS_IPAD ? 26 : 22,
-    alignItems: 'center',
-    marginBottom: IS_IPAD ? 32 : 28,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 12,
-    elevation: 2,
-  },
-  addButtonText: {
-    color: colors.primary,
-    fontSize: IS_IPAD ? 20 : 17,
-    fontWeight: '800',
-    letterSpacing: 0.4,
-  },
-  questionCard: {
-    backgroundColor: colors.card,
-    borderWidth: 1,
-    borderColor: colors.cardBorder,
-    borderRadius: IS_IPAD ? 28 : 24,
-    padding: IS_IPAD ? 36 : 28,
-    marginBottom: IS_IPAD ? 28 : 24,
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 1,
-    shadowRadius: 16,
-    elevation: 3,
-  },
-  questionText: {
-    fontSize: IS_IPAD ? 22 : 18,
-    fontWeight: '700',
-    color: colors.text,
-    marginBottom: IS_IPAD ? 22 : 18,
-    lineHeight: IS_IPAD ? 32 : 28,
-    letterSpacing: -0.3,
-  },
-  priorityCard: {
-    backgroundColor: colors.card,
-    borderWidth: 2,
-    borderColor: colors.cardBorder,
-    borderRadius: IS_IPAD ? 20 : 18,
-    padding: IS_IPAD ? 32 : 24,
-    marginBottom: IS_IPAD ? 20 : 16,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.5,
-    shadowRadius: 12,
-    elevation: 3,
-  },
-  priorityName: {
-    fontSize: IS_IPAD ? 22 : 18,
-    fontWeight: '700',
-    color: colors.text,
-    letterSpacing: -0.2,
-  },
-  rankButtons: {
-    flexDirection: 'row',
-    gap: IS_IPAD ? 14 : 12,
-  },
-  rankButton: {
-    width: IS_IPAD ? 56 : 44,
-    height: IS_IPAD ? 56 : 44,
-    borderRadius: IS_IPAD ? 14 : 12,
-    backgroundColor: colors.backgroundElevated,
-    borderWidth: 2,
-    borderColor: colors.cardBorder,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 2,
-  },
-  rankButtonSelected: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primary,
-    borderWidth: 3,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-    elevation: 5,
-    transform: [{ scale: 1.1 }],
-  },
-  rankButtonText: {
-    fontSize: IS_IPAD ? 20 : 16,
-    fontWeight: '800',
-    color: colors.text,
-  },
-  rankButtonTextSelected: {
-    color: '#FFFFFF',
-  },
-  resultCard: {
-    backgroundColor: colors.card,
-    borderWidth: 3,
-    borderColor: colors.primary,
-    borderRadius: IS_IPAD ? 32 : 28,
-    padding: IS_IPAD ? 48 : 32,
-    marginBottom: IS_IPAD ? 32 : 28,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.25,
-    shadowRadius: 32,
-    elevation: 8,
-  },
-  resultTitle: {
-    fontSize: IS_IPAD ? 36 : 28,
-    fontWeight: '900',
+  title: {
+    fontSize: IS_IPAD ? 42 : 32,
+    fontWeight: 'bold',
     color: colors.text,
     marginBottom: IS_IPAD ? 16 : 12,
-    letterSpacing: -0.6,
+    textAlign: 'center',
   },
-  resultSubtitle: {
-    fontSize: IS_IPAD ? 28 : 22,
-    fontWeight: '800',
-    color: colors.primary,
-    marginBottom: IS_IPAD ? 36 : 32,
-    letterSpacing: -0.4,
-    lineHeight: IS_IPAD ? 36 : 30,
-  },
-  resultSection: {
-    marginBottom: IS_IPAD ? 32 : 28,
-  },
-  resultSectionTitle: {
-    fontSize: IS_IPAD ? 22 : 18,
-    fontWeight: '800',
-    color: colors.text,
-    marginBottom: IS_IPAD ? 14 : 12,
-    letterSpacing: -0.3,
-  },
-  resultSectionText: {
+  subtitle: {
     fontSize: IS_IPAD ? 20 : 16,
     color: colors.textSecondary,
-    lineHeight: IS_IPAD ? 30 : 26,
-    letterSpacing: -0.1,
+    textAlign: 'center',
+    lineHeight: IS_IPAD ? 28 : 24,
   },
-  confidenceBar: {
-    height: IS_IPAD ? 14 : 12,
-    backgroundColor: colors.cardBorder,
-    borderRadius: IS_IPAD ? 10 : 8,
-    marginTop: IS_IPAD ? 16 : 14,
-    overflow: 'hidden',
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 2,
+  card: {
+    backgroundColor: colors.card,
+    borderRadius: IS_IPAD ? 20 : 16,
+    padding: IS_IPAD ? 28 : 20,
+    marginBottom: IS_IPAD ? 20 : 16,
+    ...commonStyles.shadow,
   },
-  confidenceFill: {
-    height: '100%',
-    backgroundColor: colors.success,
-    borderRadius: IS_IPAD ? 10 : 8,
-    shadowColor: colors.success,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.4,
-    shadowRadius: 6,
-  },
-  analysisContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: IS_IPAD ? 120 : 100,
-  },
-  analysisIconContainer: {
-    width: IS_IPAD ? 128 : 112,
-    height: IS_IPAD ? 128 : 112,
-    borderRadius: IS_IPAD ? 64 : 56,
-    backgroundColor: colors.highlight,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: IS_IPAD ? 40 : 32,
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.25,
-    shadowRadius: 24,
-    elevation: 6,
-  },
-  analysisTitle: {
-    fontSize: IS_IPAD ? 32 : 24,
-    fontWeight: '800',
+  cardTitle: {
+    fontSize: IS_IPAD ? 24 : 20,
+    fontWeight: '600',
     color: colors.text,
-    textAlign: 'center',
-    marginBottom: IS_IPAD ? 18 : 14,
-    letterSpacing: -0.4,
+    marginBottom: IS_IPAD ? 16 : 12,
   },
-  analysisSubtitle: {
-    fontSize: IS_IPAD ? 22 : 17,
+  cardText: {
+    fontSize: IS_IPAD ? 18 : 16,
     color: colors.textSecondary,
-    textAlign: 'center',
-    lineHeight: IS_IPAD ? 30 : 26,
-    letterSpacing: -0.1,
+    lineHeight: IS_IPAD ? 26 : 24,
   },
-  buttonContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: colors.background,
-    paddingHorizontal: IS_IPAD ? 64 : 24,
-    paddingTop: IS_IPAD ? 28 : 24,
-    paddingBottom: IS_IPAD ? 56 : 110,
-    gap: IS_IPAD ? 16 : 14,
-    borderTopWidth: 1,
-    borderTopColor: colors.cardBorder,
-    zIndex: 1001,
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: -6 },
-    shadowOpacity: 0.08,
-    shadowRadius: 16,
-    elevation: 10,
-    pointerEvents: 'box-none',
-    alignItems: 'center',
+  typeButton: {
+    backgroundColor: colors.card,
+    borderRadius: IS_IPAD ? 16 : 12,
+    padding: IS_IPAD ? 24 : 18,
+    marginBottom: IS_IPAD ? 16 : 12,
+    borderWidth: 2,
+    borderColor: 'transparent',
+    minHeight: IS_IPAD ? 100 : 80,
+    justifyContent: 'center',
   },
-  buttonInner: {
-    width: '100%',
-    maxWidth: CONTENT_MAX_WIDTH,
-    gap: IS_IPAD ? 16 : 14,
+  typeButtonSelected: {
+    borderColor: colors.primary,
+    backgroundColor: colors.primaryLight,
   },
-  primaryButton: {
-    backgroundColor: colors.primary,
-    paddingVertical: IS_IPAD ? 24 : 20,
-    borderRadius: IS_IPAD ? 20 : 18,
-    alignItems: 'center',
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.4,
-    shadowRadius: 20,
-    elevation: 8,
-    pointerEvents: 'auto',
-  },
-  primaryButtonDisabled: {
-    backgroundColor: colors.cardBorder,
-    opacity: 0.5,
-    shadowOpacity: 0,
-  },
-  primaryButtonText: {
-    color: '#FFFFFF',
+  typeButtonTitle: {
     fontSize: IS_IPAD ? 22 : 18,
-    fontWeight: '800',
-    letterSpacing: 0.5,
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: IS_IPAD ? 8 : 6,
+  },
+  typeButtonDescription: {
+    fontSize: IS_IPAD ? 16 : 14,
+    color: colors.textSecondary,
+    lineHeight: IS_IPAD ? 22 : 20,
+  },
+  input: {
+    backgroundColor: colors.inputBackground,
+    borderRadius: IS_IPAD ? 14 : 12,
+    padding: IS_IPAD ? 20 : 16,
+    fontSize: IS_IPAD ? 18 : 16,
+    color: colors.text,
+    marginBottom: IS_IPAD ? 16 : 12,
+    minHeight: IS_IPAD ? 60 : 50,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  textArea: {
+    minHeight: IS_IPAD ? 140 : 120,
+    textAlignVertical: 'top',
+  },
+  button: {
+    ...buttonStyles.primary,
+    borderRadius: IS_IPAD ? 14 : 12,
+    padding: IS_IPAD ? 20 : 16,
+    minHeight: IS_IPAD ? 64 : 54,
+    marginTop: IS_IPAD ? 16 : 12,
+  },
+  buttonText: {
+    ...buttonStyles.primaryText,
+    fontSize: IS_IPAD ? 20 : 18,
+    fontWeight: '600',
   },
   secondaryButton: {
-    backgroundColor: colors.backgroundAlt,
-    borderWidth: 2,
-    borderColor: colors.cardBorder,
-    paddingVertical: IS_IPAD ? 24 : 20,
-    borderRadius: IS_IPAD ? 20 : 18,
-    alignItems: 'center',
-    pointerEvents: 'auto',
+    ...buttonStyles.secondary,
+    borderRadius: IS_IPAD ? 14 : 12,
+    padding: IS_IPAD ? 20 : 16,
+    minHeight: IS_IPAD ? 64 : 54,
+    marginTop: IS_IPAD ? 12 : 8,
   },
   secondaryButtonText: {
+    ...buttonStyles.secondaryText,
+    fontSize: IS_IPAD ? 20 : 18,
+    fontWeight: '600',
+  },
+  optionRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: IS_IPAD ? 16 : 12,
+  },
+  optionInput: {
+    flex: 1,
+    backgroundColor: colors.inputBackground,
+    borderRadius: IS_IPAD ? 12 : 10,
+    padding: IS_IPAD ? 18 : 14,
+    fontSize: IS_IPAD ? 18 : 16,
     color: colors.text,
-    fontSize: IS_IPAD ? 22 : 18,
-    fontWeight: '700',
-    letterSpacing: 0.3,
+    marginRight: IS_IPAD ? 12 : 8,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  deleteButton: {
+    width: IS_IPAD ? 48 : 40,
+    height: IS_IPAD ? 48 : 40,
+    borderRadius: IS_IPAD ? 24 : 20,
+    backgroundColor: colors.error,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: colors.primaryLight,
+    borderRadius: IS_IPAD ? 12 : 10,
+    padding: IS_IPAD ? 16 : 12,
+    marginTop: IS_IPAD ? 12 : 8,
+    minHeight: IS_IPAD ? 56 : 48,
+  },
+  addButtonText: {
+    fontSize: IS_IPAD ? 18 : 16,
+    color: colors.primary,
+    fontWeight: '600',
+    marginLeft: IS_IPAD ? 10 : 8,
+  },
+  priorityItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.inputBackground,
+    borderRadius: IS_IPAD ? 12 : 10,
+    padding: IS_IPAD ? 18 : 14,
+    marginBottom: IS_IPAD ? 12 : 10,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  priorityText: {
+    flex: 1,
+    fontSize: IS_IPAD ? 18 : 16,
+    color: colors.text,
+  },
+  rankButton: {
+    width: IS_IPAD ? 44 : 36,
+    height: IS_IPAD ? 44 : 36,
+    borderRadius: IS_IPAD ? 22 : 18,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: IS_IPAD ? 10 : 8,
+  },
+  rankButtonText: {
+    fontSize: IS_IPAD ? 18 : 16,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  resultCard: {
+    backgroundColor: colors.success,
+    borderRadius: IS_IPAD ? 20 : 16,
+    padding: IS_IPAD ? 32 : 24,
+    marginBottom: IS_IPAD ? 24 : 20,
+    ...commonStyles.shadow,
+  },
+  resultTitle: {
+    fontSize: IS_IPAD ? 28 : 24,
+    fontWeight: 'bold',
+    color: '#fff',
+    marginBottom: IS_IPAD ? 12 : 8,
+    textAlign: 'center',
+  },
+  resultOption: {
+    fontSize: IS_IPAD ? 24 : 20,
+    fontWeight: '600',
+    color: '#fff',
+    textAlign: 'center',
+    marginBottom: IS_IPAD ? 16 : 12,
+  },
+  confidenceText: {
+    fontSize: IS_IPAD ? 20 : 18,
+    color: '#fff',
+    textAlign: 'center',
+    opacity: 0.9,
+  },
+  reasoningCard: {
+    backgroundColor: colors.card,
+    borderRadius: IS_IPAD ? 20 : 16,
+    padding: IS_IPAD ? 28 : 20,
+    marginBottom: IS_IPAD ? 20 : 16,
+    ...commonStyles.shadow,
+  },
+  reasoningText: {
+    fontSize: IS_IPAD ? 18 : 16,
+    color: colors.text,
+    lineHeight: IS_IPAD ? 28 : 26,
+  },
+  questionLabel: {
+    fontSize: IS_IPAD ? 18 : 16,
+    fontWeight: '600',
+    color: colors.text,
+    marginBottom: IS_IPAD ? 12 : 8,
+    lineHeight: IS_IPAD ? 26 : 24,
   },
 });
 
-const decisionTypes = [
-  {
-    id: 'career' as DecisionType,
-    title: 'Career',
-    description: 'Job changes, promotions, career pivots, or leaving a position',
-    icon: 'work',
-    example: 'Should I accept the promotion at my current company or pursue the startup opportunity?',
-  },
-  {
-    id: 'financial' as DecisionType,
-    title: 'Financial',
-    description: 'Major purchases, investments, or debt management decisions',
-    icon: 'payments',
-    example: 'Should I invest in real estate or put more into my retirement fund?',
-  },
-  {
-    id: 'life-change' as DecisionType,
-    title: 'Life Change',
-    description: 'Relocation, major lifestyle shifts, or personal milestones',
-    icon: 'explore',
-    example: 'Should I move to a new city for a fresh start or stay close to family?',
-  },
-  {
-    id: 'education' as DecisionType,
-    title: 'Education',
-    description: 'Pursuing new skills, degrees, certifications, or learning paths',
-    icon: 'school',
-    example: 'Should I go back to school for a Master\'s degree or focus on online certifications?',
-  },
-  {
-    id: 'personal-growth' as DecisionType,
-    title: 'Personal Growth',
-    description: 'Self-improvement, skill development, mindset shifts, or personal transformation',
-    icon: 'self-improvement',
-    example: 'Should I invest time in therapy and self-reflection or focus on building new professional skills?',
-  },
-  {
-    id: 'travel' as DecisionType,
-    title: 'Travel & Experience',
-    description: 'Planning trips, sabbaticals, gap years, or major experiences',
-    icon: 'flight',
-    example: 'Should I take a gap year to travel the world or save up for a down payment on a house?',
-  },
-  {
-    id: 'social' as DecisionType,
-    title: 'Social & Relationships',
-    description: 'Friendships, partnerships, family dynamics, or community involvement',
-    icon: 'group',
-    example: 'Should I reconcile with an estranged friend or prioritize new connections?',
-  },
-  {
-    id: 'ethical' as DecisionType,
-    title: 'Ethical & Values',
-    description: 'Decisions aligned with personal values or moral dilemmas',
-    icon: 'balance',
-    example: 'Should I support a company whose practices I disagree with, for a higher salary?',
-  },
-];
-
-const priorityOptions = [
-  { id: 'stability', name: 'Stability' },
-  { id: 'growth', name: 'Growth' },
-  { id: 'freedom', name: 'Freedom' },
-  { id: 'security', name: 'Security' },
-  { id: 'happiness', name: 'Happiness' },
-];
-
 export default function HomeScreen() {
   const theme = useTheme();
-  
-  const [step, setStep] = useState<Step>('welcome');
-  const [decisionType, setDecisionType] = useState<DecisionType>(null);
+  const [currentStep, setCurrentStep] = useState<Step>('welcome');
+  const [selectedType, setSelectedType] = useState<DecisionType>(null);
   const [decisionText, setDecisionText] = useState('');
-  const [options, setOptions] = useState<DecisionOption[]>([]);
-  const [newOptionText, setNewOptionText] = useState('');
+  const [options, setOptions] = useState<DecisionOption[]>([
+    { id: '1', text: '' },
+    { id: '2', text: '' },
+  ]);
   const [answers, setAnswers] = useState<Record<string, string>>({});
-  const [priorities, setPriorities] = useState<Priority[]>(
-    priorityOptions.map(p => ({ ...p, rank: 0 }))
-  );
+  const [priorities, setPriorities] = useState<Priority[]>([
+    { id: '1', name: 'Stability', rank: 0 },
+    { id: '2', name: 'Growth', rank: 0 },
+    { id: '3', name: 'Freedom', rank: 0 },
+    { id: '4', name: 'Security', rank: 0 },
+    { id: '5', name: 'Happiness', rank: 0 },
+  ]);
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
 
-  console.log('Reality Check - Current step:', step);
-  console.log('Reality Check - Platform:', Platform.OS, 'isPad:', IS_IPAD);
+  console.log('HomeScreen rendered - Current step:', currentStep, 'iPad mode:', IS_IPAD);
 
   const handleStartDecision = () => {
-    console.log('User tapped Start New Decision');
-    setStep('select-type');
+    console.log('User started new decision');
+    setCurrentStep('type');
   };
 
   const handleSelectType = (type: DecisionType) => {
     console.log('User selected decision type:', type);
-    setDecisionType(type);
+    setSelectedType(type);
   };
 
   const handleContinueFromType = () => {
-    console.log('User continuing from type selection');
-    setStep('define-decision');
+    if (!selectedType) return;
+    console.log('Continuing from type selection to define step');
+    setCurrentStep('define');
   };
 
   const handleContinueFromDefine = () => {
-    console.log('User continuing from define decision');
-    setStep('add-options');
+    if (!decisionText.trim()) return;
+    console.log('Continuing from define to options step');
+    setCurrentStep('options');
   };
 
   const handleAddOption = () => {
-    if (newOptionText.trim()) {
-      console.log('User adding option:', newOptionText);
-      const newOption: DecisionOption = {
-        id: Date.now().toString(),
-        text: newOptionText.trim(),
-      };
-      setOptions([...options, newOption]);
-      setNewOptionText('');
-    }
+    const newId = String(options.length + 1);
+    console.log('Adding new option:', newId);
+    setOptions([...options, { id: newId, text: '' }]);
   };
 
   const handleDeleteOption = (id: string) => {
-    console.log('User deleting option:', id);
+    console.log('Deleting option:', id);
     setOptions(options.filter(opt => opt.id !== id));
   };
 
   const handleContinueFromOptions = () => {
-    console.log('User continuing from options');
-    setStep('guided-questions');
+    const filledOptions = options.filter(opt => opt.text.trim());
+    if (filledOptions.length < 2) return;
+    console.log('Continuing from options to questions step');
+    setCurrentStep('questions');
   };
 
   const handleAnswerChange = (questionId: string, answer: string) => {
@@ -648,680 +329,401 @@ export default function HomeScreen() {
   };
 
   const handleContinueFromQuestions = () => {
-    console.log('User continuing from questions');
-    setStep('priorities');
+    console.log('Continuing from questions to priorities step');
+    setCurrentStep('priorities');
   };
 
   const handleSetPriority = (id: string, rank: number) => {
-    console.log('User setting priority:', id, 'to rank:', rank);
+    console.log('Setting priority rank:', id, rank);
     setPriorities(priorities.map(p => 
       p.id === id ? { ...p, rank } : p
     ));
   };
 
   const handleAnalyze = () => {
-    console.log('User analyzing decision');
-    setStep('analysis');
-    
+    console.log('Analyzing decision with user inputs');
     const result = calculateRecommendation();
     setAnalysisResult(result);
-    
-    setTimeout(() => {
-      setStep('result');
-    }, 2000);
+    setCurrentStep('analysis');
   };
 
   const handleStartOver = () => {
-    console.log('User starting over');
-    setStep('welcome');
-    setDecisionType(null);
+    console.log('User starting over - resetting all state');
+    setCurrentStep('welcome');
+    setSelectedType(null);
     setDecisionText('');
-    setOptions([]);
-    setNewOptionText('');
+    setOptions([{ id: '1', text: '' }, { id: '2', text: '' }]);
     setAnswers({});
-    setPriorities(priorityOptions.map(p => ({ ...p, rank: 0 })));
+    setPriorities([
+      { id: '1', name: 'Stability', rank: 0 },
+      { id: '2', name: 'Growth', rank: 0 },
+      { id: '3', name: 'Freedom', rank: 0 },
+      { id: '4', name: 'Security', rank: 0 },
+      { id: '5', name: 'Happiness', rank: 0 },
+    ]);
     setAnalysisResult(null);
   };
 
   const getQuestions = () => {
     const baseQuestions = [
-      { id: 'outcome', text: 'What is the most realistic outcome if you choose this path?' },
-      { id: 'risk', text: 'What is the biggest risk or downside of this decision?' },
-      { id: 'cost', text: 'What will this decision cost you (time, money, relationships, energy)?' },
-      { id: 'nothing', text: 'What happens if you do nothing and maintain the status quo?' },
-      { id: 'regret', text: 'Looking back 5 years from now, which choice might you regret not taking?' },
+      { id: 'outcome', label: 'What is the most realistic outcome if you choose this path?' },
+      { id: 'risk', label: 'What are the real risks and downsides?' },
+      { id: 'cost', label: 'What will this actually cost you (time, money, energy)?' },
+      { id: 'regret', label: 'If you look back in 5 years, what might you regret?' },
     ];
-
-    if (decisionType === 'career') {
-      return [
-        ...baseQuestions,
-        { id: 'growth', text: 'How does this align with your long-term career growth?' },
-        { id: 'skills', text: 'What new skills or experiences will you gain?' },
-      ];
-    }
-
-    if (decisionType === 'financial') {
-      return [
-        ...baseQuestions,
-        { id: 'afford', text: 'Can you truly afford this without significant stress?' },
-        { id: 'alternative', text: 'What else could you do with these resources?' },
-      ];
-    }
-
-    if (decisionType === 'education') {
-      return [
-        ...baseQuestions,
-        { id: 'roi', text: 'What is the expected return on investment (time and money)?' },
-        { id: 'commitment', text: 'Can you realistically commit to the time and effort required?' },
-      ];
-    }
-
-    if (decisionType === 'personal-growth') {
-      return [
-        ...baseQuestions,
-        { id: 'transformation', text: 'What specific aspect of yourself do you want to transform?' },
-        { id: 'support', text: 'What resources or support system will help you achieve this growth?' },
-      ];
-    }
-
     return baseQuestions;
   };
 
   const calculateRecommendation = (): AnalysisResult => {
-    console.log('Calculating recommendation with options:', options.length);
-    console.log('Priorities:', priorities);
-    console.log('Answers:', Object.keys(answers).length);
-
-    if (options.length === 0) {
-      return {
-        recommendedOption: 'Take action',
-        confidence: 50,
-        reasoning: 'Without specific options to evaluate, the general recommendation is to take action rather than remain in indecision. Define clear options to move forward with confidence.',
-      };
-    }
-
-    const allAnswersText = Object.values(answers).join(' ').toLowerCase();
-    const timestamp = Date.now();
+    const filledOptions = options.filter(opt => opt.text.trim());
     
-    const optionScores = options.map((option, optionIndex) => {
-      const optionSeed = option.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-      const uniqueVariance = ((optionSeed + timestamp) % 100) / 10;
-      
+    const scores = filledOptions.map((option, index) => {
       let score = 0;
-      const scoreBreakdown = {
-        priorityAlignment: 0,
-        positiveOutcome: 0,
-        managedRisk: 0,
-        worthCost: 0,
-        futureRegret: 0,
-        uniqueFactor: uniqueVariance,
-      };
-
-      const rankedPriorities = priorities.filter(p => p.rank > 0).sort((a, b) => b.rank - a.rank);
+      const timestampSeed = Date.now() + index;
       
-      if (rankedPriorities.length > 0) {
-        const optionTextLower = option.text.toLowerCase();
-        let priorityScore = 0;
+      const rankedPriorities = priorities.filter(p => p.rank > 0).sort((a, b) => a.rank - b.rank);
+      rankedPriorities.forEach((priority, idx) => {
+        const weight = rankedPriorities.length - idx;
+        const priorityKeywords = priority.name.toLowerCase().split(' ');
+        const optionLower = option.text.toLowerCase();
+        const answerText = Object.values(answers).join(' ').toLowerCase();
         
-        rankedPriorities.forEach((priority, index) => {
-          const priorityKeywords = {
-            stability: ['stable', 'steady', 'consistent', 'reliable', 'secure', 'predictable', 'safe', 'certain'],
-            growth: ['grow', 'develop', 'advance', 'progress', 'improve', 'expand', 'learn', 'evolve', 'opportunity'],
-            freedom: ['free', 'flexible', 'independent', 'autonomous', 'choice', 'control', 'liberty', 'open'],
-            security: ['safe', 'secure', 'protected', 'guaranteed', 'certain', 'assured', 'stable', 'insured'],
-            happiness: ['happy', 'joy', 'fulfilling', 'satisfying', 'enjoy', 'passion', 'love', 'content', 'pleased'],
-          };
-          
-          const keywords = priorityKeywords[priority.id as keyof typeof priorityKeywords] || [];
-          const optionMatches = keywords.filter(keyword => optionTextLower.includes(keyword)).length;
-          const answerMatches = keywords.filter(keyword => allAnswersText.includes(keyword)).length;
-          
-          const positionBonus = (optionIndex === 0 ? 1.2 : optionIndex === options.length - 1 ? 1.1 : 1.0);
-          const rankWeight = (6 - index) * priority.rank * positionBonus;
-          priorityScore += (optionMatches * 3 + answerMatches * 2) * rankWeight;
-        });
-        
-        scoreBreakdown.priorityAlignment = Math.min(30, priorityScore + uniqueVariance);
-        score += scoreBreakdown.priorityAlignment;
-      }
-
-      const outcomeAnswer = answers['outcome'] || '';
-      if (outcomeAnswer.length > 20) {
-        const positiveWords = ['good', 'positive', 'success', 'growth', 'better', 'improve', 'opportunity', 'benefit', 'gain', 'achieve', 'excellent', 'great', 'wonderful', 'fantastic', 'promising', 'strong', 'valuable', 'rewarding'];
-        const negativeWords = ['bad', 'negative', 'fail', 'worse', 'decline', 'loss', 'problem', 'difficult', 'struggle', 'poor', 'terrible', 'awful', 'risky', 'uncertain'];
-        
-        const positiveCount = positiveWords.filter(word => outcomeAnswer.toLowerCase().includes(word)).length;
-        const negativeCount = negativeWords.filter(word => outcomeAnswer.toLowerCase().includes(word)).length;
-        
-        const lengthBonus = Math.min(3, outcomeAnswer.length / 50);
-        const outcomeScore = Math.max(0, Math.min(25, (positiveCount * 3.5) - (negativeCount * 2.5) + lengthBonus + (uniqueVariance / 2)));
-        scoreBreakdown.positiveOutcome = outcomeScore;
-        score += outcomeScore;
-      }
-
-      const riskAnswer = answers['risk'] || '';
-      if (riskAnswer.length > 15) {
-        const lowRiskWords = ['manageable', 'small', 'minimal', 'low', 'acceptable', 'reversible', 'minor', 'slight', 'limited', 'controlled', 'reasonable', 'tolerable'];
-        const highRiskWords = ['catastrophic', 'severe', 'major', 'irreversible', 'dangerous', 'significant', 'huge', 'enormous', 'critical', 'devastating', 'unacceptable'];
-        
-        const lowRiskCount = lowRiskWords.filter(word => riskAnswer.toLowerCase().includes(word)).length;
-        const highRiskCount = highRiskWords.filter(word => riskAnswer.toLowerCase().includes(word)).length;
-        
-        const riskScore = Math.max(0, Math.min(20, (lowRiskCount * 4) - (highRiskCount * 3.5) + 3 + (uniqueVariance / 3)));
-        scoreBreakdown.managedRisk = riskScore;
-        score += riskScore;
-      }
-
-      const costAnswer = answers['cost'] || '';
-      if (costAnswer.length > 15) {
-        const affordableWords = ['affordable', 'reasonable', 'worth', 'manageable', 'acceptable', 'fair', 'justified', 'worthwhile', 'valuable', 'good investment'];
-        const expensiveWords = ['expensive', 'costly', 'sacrifice', 'overwhelming', 'too much', 'unaffordable', 'excessive', 'burden', 'strain'];
-        
-        const affordableCount = affordableWords.filter(word => costAnswer.toLowerCase().includes(word)).length;
-        const expensiveCount = expensiveWords.filter(word => costAnswer.toLowerCase().includes(word)).length;
-        
-        const costScore = Math.max(0, Math.min(15, (affordableCount * 3.5) - (expensiveCount * 2.5) + 2 + (uniqueVariance / 4)));
-        scoreBreakdown.worthCost = costScore;
-        score += costScore;
-      }
-
-      const regretAnswer = answers['regret'] || '';
-      if (regretAnswer.length > 20) {
-        const optionWords = option.text.toLowerCase().split(' ').filter(w => w.length > 3);
-        let mentionScore = 0;
-        
-        optionWords.forEach(word => {
-          if (regretAnswer.toLowerCase().includes(word)) {
-            mentionScore += 4;
+        priorityKeywords.forEach(keyword => {
+          if (optionLower.includes(keyword) || answerText.includes(keyword)) {
+            score += weight * 3;
           }
         });
-        
-        const regretKeywords = ['regret', 'wish', 'should have', 'missed', 'opportunity'];
-        const regretIntensity = regretKeywords.filter(k => regretAnswer.toLowerCase().includes(k)).length;
-        
-        const regretScore = Math.min(20, mentionScore + (regretIntensity * 3) + (uniqueVariance / 2));
-        scoreBreakdown.futureRegret = regretScore;
-        score += regretScore;
-      }
-
-      const totalQuestions = getQuestions().length;
-      const answeredQuestions = Object.keys(answers).length;
-      const completenessMultiplier = 0.5 + (answeredQuestions / totalQuestions) * 0.5;
-      score = score * completenessMultiplier;
-
-      score += uniqueVariance;
-
-      console.log(`Option "${option.text}" score: ${score.toFixed(1)}`, scoreBreakdown);
-
-      return {
-        option,
-        score,
-        scoreBreakdown,
-      };
-    });
-
-    optionScores.sort((a, b) => b.score - a.score);
-    
-    const bestOption = optionScores[0];
-    const secondBestOption = optionScores[1];
-    
-    const maxPossibleScore = 110;
-    const normalizedScore = (bestOption.score / maxPossibleScore);
-    
-    const answeredQuestions = Object.keys(answers).length;
-    const totalQuestions = getQuestions().length;
-    const completenessRatio = answeredQuestions / totalQuestions;
-    
-    let baseConfidence = 45 + (normalizedScore * 35);
-    
-    const completenessBonus = completenessRatio * 12;
-    baseConfidence += completenessBonus;
-    
-    if (secondBestOption) {
-      const scoreDifference = bestOption.score - secondBestOption.score;
-      const scoreGap = scoreDifference / maxPossibleScore;
+      });
       
-      if (scoreGap < 0.05) {
-        baseConfidence -= 18;
-      } else if (scoreGap < 0.10) {
-        baseConfidence -= 8;
-      } else if (scoreGap > 0.25) {
-        baseConfidence += 12;
-      } else if (scoreGap > 0.15) {
-        baseConfidence += 6;
-      }
+      const positiveKeywords = ['good', 'great', 'excellent', 'positive', 'beneficial', 'advantage', 'opportunity', 'growth', 'success', 'improve', 'better', 'gain', 'profit', 'win'];
+      const negativeKeywords = ['bad', 'poor', 'negative', 'risk', 'danger', 'loss', 'problem', 'difficult', 'hard', 'expensive', 'costly', 'fail', 'worse'];
+      
+      Object.values(answers).forEach(answer => {
+        const answerLower = answer.toLowerCase();
+        positiveKeywords.forEach(keyword => {
+          if (answerLower.includes(keyword)) score += 2;
+        });
+        negativeKeywords.forEach(keyword => {
+          if (answerLower.includes(keyword)) score -= 1;
+        });
+      });
+      
+      score += (index === 0 ? 2 : index === 1 ? 1 : 0);
+      
+      const answerLength = Object.values(answers).reduce((sum, ans) => sum + ans.length, 0);
+      score += Math.min(answerLength / 100, 5);
+      
+      score += (Math.sin(timestampSeed) * 5);
+      
+      return { option, score };
+    });
+    
+    scores.sort((a, b) => b.score - a.score);
+    const bestOption = scores[0];
+    
+    const maxPossibleScore = 100;
+    let confidence = Math.min(Math.max((bestOption.score / maxPossibleScore) * 100, 38), 92);
+    
+    const allQuestionsAnswered = getQuestions().every(q => answers[q.id]?.trim());
+    if (allQuestionsAnswered) {
+      confidence += 10;
     }
     
-    const timeVariance = ((timestamp % 17) - 8) * 0.8;
-    baseConfidence += timeVariance;
-    
-    const finalConfidence = Math.max(42, Math.min(91, Math.round(baseConfidence)));
-
-    const topPriorities = priorities
-      .filter(p => p.rank >= 4)
-      .sort((a, b) => b.rank - a.rank)
-      .map(p => p.name.toLowerCase())
-      .slice(0, 2);
-
-    const topPrioritiesText = topPriorities.join(' and ');
-
-    let reasoning = '';
-    
-    if (topPriorities.length > 0) {
-      reasoning = `This choice aligns most strongly with your highest priorities: ${topPrioritiesText}. `;
+    if (scores.length > 1 && Math.abs(scores[0].score - scores[1].score) < 5) {
+      confidence -= 20;
     }
     
-    reasoning += 'Based on your answers to the guided questions, this option demonstrates the most favorable balance of potential outcomes, manageable risks, and acceptable costs. ';
+    confidence = Math.min(Math.max(confidence, 38), 92);
     
-    if (bestOption.scoreBreakdown.positiveOutcome > 15) {
-      reasoning += 'Your assessment of the realistic outcomes for this path shows significant positive potential. ';
-    }
+    const reasoning = `Based on your priorities and answers, "${bestOption.option.text}" aligns best with what you value most. ${
+      confidence > 70 
+        ? 'The analysis shows strong alignment with your stated priorities.' 
+        : 'While this appears to be the better option, the decision is close and requires careful consideration.'
+    }`;
     
-    if (bestOption.scoreBreakdown.managedRisk > 12) {
-      reasoning += 'The risks associated with this choice appear manageable and within your tolerance. ';
-    }
-    
-    if (bestOption.scoreBreakdown.futureRegret > 10) {
-      reasoning += 'Looking ahead, this option minimizes the likelihood of future regret. ';
-    }
-    
-    if (secondBestOption && (bestOption.score - secondBestOption.score) < 10) {
-      reasoning += 'Note that your other options scored similarly, suggesting this is a nuanced decision where multiple paths could work.';
-    } else {
-      reasoning += 'This option stands out clearly from your alternatives based on your stated values and analysis.';
-    }
-
-    console.log('Final recommendation:', bestOption.option.text, 'with confidence:', finalConfidence);
-
     return {
       recommendedOption: bestOption.option.text,
-      confidence: finalConfidence,
-      reasoning: reasoning.trim(),
+      confidence: Math.round(confidence),
+      reasoning,
     };
   };
 
   const getSelectedTypeExample = () => {
-    const selectedType = decisionTypes.find(type => type.id === decisionType);
-    return selectedType?.example || '';
+    const examples: Record<string, string> = {
+      career: 'e.g., "Should I accept the new job offer or stay in my current position?"',
+      relationship: 'e.g., "Should I move in with my partner or wait another year?"',
+      financial: 'e.g., "Should I invest in real estate or keep saving in the bank?"',
+      'life-change': 'e.g., "Should I move to a new city or stay where I am?"',
+    };
+    const exampleText = selectedType ? examples[selectedType] : '';
+    return exampleText;
   };
-
-  const canContinueFromType = decisionType !== null;
-  const canContinueFromDefine = decisionText.trim().length > 0;
-  const canContinueFromOptions = options.length >= 2;
-  const canContinueFromQuestions = Object.keys(answers).length >= 3;
-  const canAnalyze = priorities.some(p => p.rank > 0);
-
-  const selectedTypeExample = getSelectedTypeExample();
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      <Stack.Screen
-        options={{
-          headerShown: false,
-        }}
-      />
-      
+      <Stack.Screen options={{ headerShown: false }} />
       <ScrollView 
-        style={{ flex: 1 }}
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {step === 'welcome' && (
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>Reality Check</Text>
-              <Text style={styles.headerSubtitle}>
-                Turn mental noise into structured insight and clear next steps.
-              </Text>
-            </View>
-
-            <View style={styles.welcomeCard}>
-              <View style={styles.welcomeIconContainer}>
-                <IconSymbol 
-                  ios_icon_name="lightbulb.fill"
-                  android_material_icon_name="lightbulb" 
-                  size={IS_IPAD ? 48 : 40} 
-                  color={colors.primary}
-                />
-              </View>
-              <Text style={styles.welcomeTitle}>How it works</Text>
-              <Text style={styles.welcomeText}>
-                1. Choose your decision type{'\n'}
-                2. Define your options{'\n'}
-                3. Answer guided questions{'\n'}
-                4. Rank your priorities{'\n'}
-                5. Get a clear recommendation
-              </Text>
-            </View>
-          </View>
-        )}
-
-        {step === 'select-type' && (
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>Select Decision Type</Text>
-              <Text style={styles.headerSubtitle}>
-                Choose the category that best fits your decision
-              </Text>
-            </View>
-
-            {decisionTypes.map((type) => {
-              const isSelected = decisionType === type.id;
-              return (
-                <TouchableOpacity
-                  key={type.id}
-                  style={[styles.typeCard, isSelected && styles.typeCardSelected]}
-                  onPress={() => handleSelectType(type.id)}
-                  activeOpacity={0.7}
-                >
-                  <View style={[styles.typeIconContainer, isSelected && styles.typeIconContainerSelected]}>
-                    <IconSymbol
-                      ios_icon_name={type.icon}
-                      android_material_icon_name={type.icon}
-                      size={IS_IPAD ? 36 : 32}
-                      color={isSelected ? '#FFFFFF' : colors.primary}
-                    />
-                  </View>
-                  <View style={styles.typeContent}>
-                    <Text style={styles.typeTitle}>{type.title}</Text>
-                    <Text style={styles.typeDescription}>{type.description}</Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-        )}
-
-        {step === 'define-decision' && (
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>Define Your Decision</Text>
-              <Text style={styles.headerSubtitle}>
-                Clearly state the decision you need to make
-              </Text>
-            </View>
-
-            {selectedTypeExample && (
-              <View style={styles.exampleCard}>
-                <Text style={styles.exampleLabel}>EXAMPLE</Text>
-                <Text style={styles.exampleText}>{selectedTypeExample}</Text>
-              </View>
-            )}
-
-            <TextInput
-              style={[styles.input, styles.textArea]}
-              placeholder="Describe your decision here..."
-              placeholderTextColor={colors.textTertiary}
-              value={decisionText}
-              onChangeText={setDecisionText}
-              multiline
-              numberOfLines={4}
-            />
-
-            <View style={styles.welcomeCard}>
-              <IconSymbol 
-                ios_icon_name="info.circle.fill"
-                android_material_icon_name="info" 
-                size={IS_IPAD ? 32 : 28} 
-                color={colors.primary}
-                style={{ marginBottom: IS_IPAD ? 16 : 14 }}
-              />
-              <Text style={styles.welcomeText}>
-                Be specific. A clear question leads to a clear answer.
-              </Text>
-            </View>
-          </View>
-        )}
-
-        {step === 'add-options' && (
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>Your Options</Text>
-              <Text style={styles.headerSubtitle}>
-                Add 2-4 possible choices. Limiting options prevents overthinking.
-              </Text>
-            </View>
-
-            {options.map((option) => (
-              <View key={option.id} style={styles.optionCard}>
-                <Text style={styles.optionText}>{option.text}</Text>
-                <TouchableOpacity
-                  style={styles.deleteButton}
-                  onPress={() => handleDeleteOption(option.id)}
-                  activeOpacity={0.7}
-                >
-                  <IconSymbol
-                    ios_icon_name="trash.fill"
-                    android_material_icon_name="delete"
-                    size={IS_IPAD ? 28 : 24}
-                    color={colors.danger}
-                  />
-                </TouchableOpacity>
-              </View>
-            ))}
-
-            <TextInput
-              style={styles.input}
-              placeholder="Enter an option..."
-              placeholderTextColor={colors.textTertiary}
-              value={newOptionText}
-              onChangeText={setNewOptionText}
-              onSubmitEditing={handleAddOption}
-            />
-
-            <TouchableOpacity style={styles.addButton} onPress={handleAddOption} activeOpacity={0.7}>
-              <Text style={styles.addButtonText}>+ Add Option</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-
-        {step === 'guided-questions' && (
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>Guided Questions</Text>
-              <Text style={styles.headerSubtitle}>
-                Answer honestly to reduce bias and see real tradeoffs
-              </Text>
-            </View>
-
-            {getQuestions().map((question) => (
-              <View key={question.id} style={styles.questionCard}>
-                <Text style={styles.questionText}>{question.text}</Text>
-                <TextInput
-                  style={[styles.input, styles.textArea, { marginBottom: 0 }]}
-                  placeholder="Your answer..."
-                  placeholderTextColor={colors.textTertiary}
-                  value={answers[question.id] || ''}
-                  onChangeText={(text) => handleAnswerChange(question.id, text)}
-                  multiline
-                  numberOfLines={3}
-                />
-              </View>
-            ))}
-          </View>
-        )}
-
-        {step === 'priorities' && (
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>Rank Your Priorities</Text>
-              <Text style={styles.headerSubtitle}>
-                Rate each priority from 1 (low) to 5 (high)
-              </Text>
-            </View>
-
-            {priorities.map((priority) => (
-              <View key={priority.id} style={styles.priorityCard}>
-                <Text style={styles.priorityName}>{priority.name}</Text>
-                <View style={styles.rankButtons}>
-                  {[1, 2, 3, 4, 5].map((rank) => {
-                    const isSelected = priority.rank === rank;
-                    return (
-                      <TouchableOpacity
-                        key={rank}
-                        style={[styles.rankButton, isSelected && styles.rankButtonSelected]}
-                        onPress={() => handleSetPriority(priority.id, rank)}
-                        activeOpacity={0.7}
-                      >
-                        <Text style={[styles.rankButtonText, isSelected && styles.rankButtonTextSelected]}>
-                          {rank}
-                        </Text>
-                      </TouchableOpacity>
-                    );
-                  })}
-                </View>
-              </View>
-            ))}
-          </View>
-        )}
-
-        {step === 'analysis' && (
-          <View style={styles.analysisContainer}>
-            <View style={styles.analysisIconContainer}>
-              <IconSymbol 
-                ios_icon_name="brain.head.profile"
-                android_material_icon_name="psychology" 
-                size={IS_IPAD ? 72 : 64} 
-                color={colors.primary}
-              />
-            </View>
-            <Text style={styles.analysisTitle}>Analyzing your decision...</Text>
-            <Text style={styles.analysisSubtitle}>
-              Evaluating options against your priorities
-            </Text>
-          </View>
-        )}
-
-        {step === 'result' && analysisResult && (
-          <View>
-            <View style={styles.header}>
-              <Text style={styles.headerTitle}>Your Reality Check</Text>
-            </View>
-
-            <View style={styles.resultCard}>
-              <Text style={styles.resultTitle}>Recommendation</Text>
-              <Text style={styles.resultSubtitle}>{analysisResult.recommendedOption}</Text>
-
-              <View style={styles.resultSection}>
-                <Text style={styles.resultSectionTitle}>Confidence Level</Text>
-                <Text style={styles.resultSectionText}>{analysisResult.confidence}% confident</Text>
-                <View style={styles.confidenceBar}>
-                  <View style={[styles.confidenceFill, { width: `${analysisResult.confidence}%` }]} />
-                </View>
-              </View>
-
-              <View style={styles.resultSection}>
-                <Text style={styles.resultSectionTitle}>Why This Choice</Text>
-                <Text style={styles.resultSectionText}>
-                  {analysisResult.reasoning}
+        <View style={styles.contentWrapper}>
+          {currentStep === 'welcome' && (
+            <>
+              <View style={styles.header}>
+                <Text style={styles.title}>Reality Check</Text>
+                <Text style={styles.subtitle}>
+                  Turn mental noise into clear decisions
                 </Text>
               </View>
-            </View>
+              
+              <View style={styles.card}>
+                <Text style={styles.cardTitle}>How it works</Text>
+                <Text style={styles.cardText}>
+                  Reality Check guides you through a structured process to help you make difficult decisions with confidence. No fluff, just practical questions and clear recommendations.
+                </Text>
+              </View>
 
-            <View style={styles.welcomeCard}>
-              <IconSymbol 
-                ios_icon_name="info.circle"
-                android_material_icon_name="info" 
-                size={IS_IPAD ? 30 : 26} 
-                color={colors.textSecondary}
-                style={{ marginBottom: IS_IPAD ? 16 : 14 }}
+              <TouchableOpacity style={styles.button} onPress={handleStartDecision}>
+                <Text style={styles.buttonText}>Start New Decision</Text>
+              </TouchableOpacity>
+            </>
+          )}
+
+          {currentStep === 'type' && (
+            <>
+              <View style={styles.header}>
+                <Text style={styles.title}>What type of decision?</Text>
+                <Text style={styles.subtitle}>
+                  Select the category that best fits your situation
+                </Text>
+              </View>
+
+              <TouchableOpacity
+                style={[styles.typeButton, selectedType === 'career' && styles.typeButtonSelected]}
+                onPress={() => handleSelectType('career')}
+              >
+                <Text style={styles.typeButtonTitle}>Career</Text>
+                <Text style={styles.typeButtonDescription}>
+                  Job changes, promotions, career pivots
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.typeButton, selectedType === 'relationship' && styles.typeButtonSelected]}
+                onPress={() => handleSelectType('relationship')}
+              >
+                <Text style={styles.typeButtonTitle}>Relationship</Text>
+                <Text style={styles.typeButtonDescription}>
+                  Dating, commitment, family decisions
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.typeButton, selectedType === 'financial' && styles.typeButtonSelected]}
+                onPress={() => handleSelectType('financial')}
+              >
+                <Text style={styles.typeButtonTitle}>Financial</Text>
+                <Text style={styles.typeButtonDescription}>
+                  Investments, purchases, money management
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[styles.typeButton, selectedType === 'life-change' && styles.typeButtonSelected]}
+                onPress={() => handleSelectType('life-change')}
+              >
+                <Text style={styles.typeButtonTitle}>Life Change</Text>
+                <Text style={styles.typeButtonDescription}>
+                  Moving, lifestyle shifts, major transitions
+                </Text>
+              </TouchableOpacity>
+
+              {selectedType && (
+                <TouchableOpacity style={styles.button} onPress={handleContinueFromType}>
+                  <Text style={styles.buttonText}>Continue</Text>
+                </TouchableOpacity>
+              )}
+            </>
+          )}
+
+          {currentStep === 'define' && (
+            <>
+              <View style={styles.header}>
+                <Text style={styles.title}>Define your decision</Text>
+                <Text style={styles.subtitle}>
+                  Be specific about what you're trying to decide
+                </Text>
+              </View>
+
+              <View style={styles.card}>
+                <Text style={styles.cardText}>
+                  {getSelectedTypeExample()}
+                </Text>
+              </View>
+
+              <TextInput
+                style={[styles.input, styles.textArea]}
+                placeholder="Describe your decision..."
+                placeholderTextColor={colors.textSecondary}
+                value={decisionText}
+                onChangeText={setDecisionText}
+                multiline
               />
-              <Text style={[styles.welcomeText, { fontSize: IS_IPAD ? 18 : 14 }]}>
-                This is a thinking tool, not professional advice. For legal, medical, or financial decisions, consult qualified professionals.
-              </Text>
-            </View>
-          </View>
-        )}
-      </ScrollView>
 
-      <View style={styles.buttonContainer}>
-        <View style={styles.buttonInner}>
-          {step === 'welcome' && (
-            <TouchableOpacity 
-              style={styles.primaryButton} 
-              onPress={handleStartDecision}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Start New Decision</Text>
-            </TouchableOpacity>
+              {decisionText.trim() && (
+                <TouchableOpacity style={styles.button} onPress={handleContinueFromDefine}>
+                  <Text style={styles.buttonText}>Continue</Text>
+                </TouchableOpacity>
+              )}
+            </>
           )}
 
-          {step === 'select-type' && (
-            <TouchableOpacity 
-              style={[styles.primaryButton, !canContinueFromType && styles.primaryButtonDisabled]} 
-              onPress={handleContinueFromType}
-              disabled={!canContinueFromType}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Continue</Text>
-            </TouchableOpacity>
+          {currentStep === 'options' && (
+            <>
+              <View style={styles.header}>
+                <Text style={styles.title}>What are your options?</Text>
+                <Text style={styles.subtitle}>
+                  List the choices you're considering (2-5 options)
+                </Text>
+              </View>
+
+              {options.map((option, index) => (
+                <View key={option.id} style={styles.optionRow}>
+                  <TextInput
+                    style={styles.optionInput}
+                    placeholder={`Option ${index + 1}`}
+                    placeholderTextColor={colors.textSecondary}
+                    value={option.text}
+                    onChangeText={(text) => {
+                      const newOptions = [...options];
+                      newOptions[index].text = text;
+                      setOptions(newOptions);
+                    }}
+                  />
+                  {options.length > 2 && (
+                    <TouchableOpacity
+                      style={styles.deleteButton}
+                      onPress={() => handleDeleteOption(option.id)}
+                    >
+                      <IconSymbol
+                        ios_icon_name="trash"
+                        android_material_icon_name="delete"
+                        size={IS_IPAD ? 24 : 20}
+                        color="#fff"
+                      />
+                    </TouchableOpacity>
+                  )}
+                </View>
+              ))}
+
+              {options.length < 5 && (
+                <TouchableOpacity style={styles.addButton} onPress={handleAddOption}>
+                  <IconSymbol
+                    ios_icon_name="plus"
+                    android_material_icon_name="add"
+                    size={IS_IPAD ? 24 : 20}
+                    color={colors.primary}
+                  />
+                  <Text style={styles.addButtonText}>Add Option</Text>
+                </TouchableOpacity>
+              )}
+
+              {options.filter(opt => opt.text.trim()).length >= 2 && (
+                <TouchableOpacity style={styles.button} onPress={handleContinueFromOptions}>
+                  <Text style={styles.buttonText}>Continue</Text>
+                </TouchableOpacity>
+              )}
+            </>
           )}
 
-          {step === 'define-decision' && (
-            <TouchableOpacity 
-              style={[styles.primaryButton, !canContinueFromDefine && styles.primaryButtonDisabled]} 
-              onPress={handleContinueFromDefine}
-              disabled={!canContinueFromDefine}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Continue</Text>
-            </TouchableOpacity>
+          {currentStep === 'questions' && (
+            <>
+              <View style={styles.header}>
+                <Text style={styles.title}>Answer these questions</Text>
+                <Text style={styles.subtitle}>
+                  Be honest and realistic in your responses
+                </Text>
+              </View>
+
+              {getQuestions().map((question) => (
+                <View key={question.id} style={styles.card}>
+                  <Text style={styles.questionLabel}>{question.label}</Text>
+                  <TextInput
+                    style={[styles.input, styles.textArea]}
+                    placeholder="Your answer..."
+                    placeholderTextColor={colors.textSecondary}
+                    value={answers[question.id] || ''}
+                    onChangeText={(text) => handleAnswerChange(question.id, text)}
+                    multiline
+                  />
+                </View>
+              ))}
+
+              <TouchableOpacity style={styles.button} onPress={handleContinueFromQuestions}>
+                <Text style={styles.buttonText}>Continue</Text>
+              </TouchableOpacity>
+            </>
           )}
 
-          {step === 'add-options' && (
-            <TouchableOpacity 
-              style={[styles.primaryButton, !canContinueFromOptions && styles.primaryButtonDisabled]} 
-              onPress={handleContinueFromOptions}
-              disabled={!canContinueFromOptions}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Continue to Questions</Text>
-            </TouchableOpacity>
+          {currentStep === 'priorities' && (
+            <>
+              <View style={styles.header}>
+                <Text style={styles.title}>Rank your priorities</Text>
+                <Text style={styles.subtitle}>
+                  Tap to rank what matters most (1 = highest priority)
+                </Text>
+              </View>
+
+              {priorities.map((priority) => (
+                <View key={priority.id} style={styles.priorityItem}>
+                  <Text style={styles.priorityText}>{priority.name}</Text>
+                  {[1, 2, 3, 4, 5].map((rank) => (
+                    <TouchableOpacity
+                      key={rank}
+                      style={[
+                        styles.rankButton,
+                        priority.rank === rank && { backgroundColor: colors.success }
+                      ]}
+                      onPress={() => handleSetPriority(priority.id, rank)}
+                    >
+                      <Text style={styles.rankButtonText}>{rank}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              ))}
+
+              <TouchableOpacity style={styles.button} onPress={handleAnalyze}>
+                <Text style={styles.buttonText}>Analyze Decision</Text>
+              </TouchableOpacity>
+            </>
           )}
 
-          {step === 'guided-questions' && (
-            <TouchableOpacity 
-              style={[styles.primaryButton, !canContinueFromQuestions && styles.primaryButtonDisabled]} 
-              onPress={handleContinueFromQuestions}
-              disabled={!canContinueFromQuestions}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Continue to Priorities</Text>
-            </TouchableOpacity>
-          )}
+          {currentStep === 'analysis' && analysisResult && (
+            <>
+              <View style={styles.header}>
+                <Text style={styles.title}>Your Recommendation</Text>
+              </View>
 
-          {step === 'priorities' && (
-            <TouchableOpacity 
-              style={[styles.primaryButton, !canAnalyze && styles.primaryButtonDisabled]} 
-              onPress={handleAnalyze}
-              disabled={!canAnalyze}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Analyze Decision</Text>
-            </TouchableOpacity>
-          )}
+              <View style={styles.resultCard}>
+                <Text style={styles.resultTitle}>Recommended Choice</Text>
+                <Text style={styles.resultOption}>{analysisResult.recommendedOption}</Text>
+                <Text style={styles.confidenceText}>
+                  Confidence: {analysisResult.confidence}%
+                </Text>
+              </View>
 
-          {step === 'result' && (
-            <TouchableOpacity 
-              style={styles.primaryButton} 
-              onPress={handleStartOver}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.primaryButtonText}>Start New Decision</Text>
-            </TouchableOpacity>
-          )}
+              <View style={styles.reasoningCard}>
+                <Text style={styles.cardTitle}>Why this choice?</Text>
+                <Text style={styles.reasoningText}>{analysisResult.reasoning}</Text>
+              </View>
 
-          {step !== 'welcome' && step !== 'analysis' && step !== 'result' && (
-            <TouchableOpacity 
-              style={styles.secondaryButton} 
-              onPress={handleStartOver}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.secondaryButtonText}>Start Over</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={handleStartOver}>
+                <Text style={styles.buttonText}>Start New Decision</Text>
+              </TouchableOpacity>
+            </>
           )}
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
