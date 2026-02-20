@@ -679,7 +679,7 @@ export default function HomeScreen() {
             <View style={styles.header}>
               <Text style={styles.headerTitle}>Reality Check</Text>
               <Text style={styles.headerSubtitle}>
-                A private, offline decision clarity tool. Turn mental noise into structured insight and clear next steps.
+                Turn mental noise into structured insight and clear next steps.
               </Text>
             </View>
 
@@ -698,20 +698,6 @@ export default function HomeScreen() {
                 3. Answer guided questions{'\n'}
                 4. Rank your priorities{'\n'}
                 5. Get a clear recommendation
-              </Text>
-            </View>
-
-            <View style={styles.welcomeCard}>
-              <View style={styles.welcomeIconContainer}>
-                <IconSymbol 
-                  android_material_icon_name="lock" 
-                  size={32} 
-                  color={colors.success}
-                />
-              </View>
-              <Text style={styles.welcomeTitle}>Private & Offline</Text>
-              <Text style={styles.welcomeText}>
-                All data stays on your device. No accounts, no internet required, no tracking.
               </Text>
             </View>
           </View>
