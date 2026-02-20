@@ -1,15 +1,14 @@
-
 {
   "expo": {
-    "name": "Reality Check",
-    "slug": "reality-check",
+    "name": "build-me-a-brand-new",
+    "slug": "build-me-a-brand-new",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/app-icon-nmc.png",
+    "icon": "./assets/images/app-icon-vqz.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/app-icon-nmc.png",
+      "image": "./assets/images/app-icon-vqz.png",
       "resizeMode": "contain",
       "backgroundColor": "#1a1a2e"
     },
@@ -31,7 +30,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/app-icon-nmc.png",
+        "foregroundImage": "./assets/images/app-icon-vqz.png",
         "backgroundColor": "#1a1a2e"
       },
       "edgeToEdgeEnabled": true,
@@ -47,7 +46,7 @@
       "expo-router",
       "expo-web-browser"
     ],
-    "scheme": "reality-check",
+    "scheme": "build-me-a-brand-new",
     "experiments": {
       "typedRoutes": true
     },
