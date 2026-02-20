@@ -3,7 +3,7 @@
     "name": "Reality Check",
     "slug": "reality-check",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/app-icon-vqz.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -20,7 +20,18 @@
         "ITSAppUsesNonExemptEncryption": false,
         "NSPhotoLibraryUsageDescription": "This app needs access to your photo library.",
         "NSCameraUsageDescription": "This app needs access to your camera.",
-        "UIRequiresFullScreen": false
+        "UIRequiresFullScreen": false,
+        "UIStatusBarStyle": "UIStatusBarStyleDefault",
+        "UISupportedInterfaceOrientations": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown"
+        ],
+        "UISupportedInterfaceOrientations~ipad": [
+          "UIInterfaceOrientationPortrait",
+          "UIInterfaceOrientationPortraitUpsideDown",
+          "UIInterfaceOrientationLandscapeLeft",
+          "UIInterfaceOrientationLandscapeRight"
+        ]
       },
       "icon": "./assets/images/app-icon-vqz.png",
       "requireFullScreen": false
