@@ -857,27 +857,48 @@ export default function HomeScreen() {
     const secondBestOption = optionScores[1];
     
     const maxPossibleScore = 110;
-    let baseConfidence = (bestOption.score / maxPossibleScore) * 100;
+    const normalizedScore = (bestOption.score / maxPossibleScore);
     
     const answeredQuestions = Object.keys(answers).length;
     const totalQuestions = getQuestions().length;
-    const completenessBonus = (answeredQuestions / totalQuestions) * 15;
+    const completenessRatio = answeredQuestions / totalQuestions;
     
-    let confidenceAdjustment = completenessBonus;
+    const baseConfidence = 45 + (normalizedScore * 35);
+    
+    let confidenceBonus = 0;
+    if (completenessRatio >= 0.8) {
+      confidenceBonus += 12;
+    } else if (completenessRatio >= 0.6) {
+      confidenceBonus += 6;
+    }
+    
+    let differentiationAdjustment = 0;
     if (secondBestOption) {
       const scoreDifference = bestOption.score - secondBestOption.score;
       if (scoreDifference < 5) {
-        confidenceAdjustment -= 25;
+        differentiationAdjustment = -18;
       } else if (scoreDifference < 10) {
-        confidenceAdjustment -= 15;
+        differentiationAdjustment = -8;
       } else if (scoreDifference > 20) {
-        confidenceAdjustment += 10;
+        differentiationAdjustment = 8;
       }
     }
     
-    const varianceAdjustment = ((timestamp % 10) - 5);
+    const timeVariance = ((timestamp % 20) - 10);
+    const optionVariance = ((bestOption.option.id.charCodeAt(0) % 15) - 7);
+    const totalVariance = timeVariance + optionVariance;
     
-    const finalConfidence = Math.max(38, Math.min(92, Math.round(baseConfidence + confidenceAdjustment + varianceAdjustment)));
+    const rawConfidence = baseConfidence + confidenceBonus + differentiationAdjustment + totalVariance;
+    const finalConfidence = Math.max(42, Math.min(89, Math.round(rawConfidence)));
+
+    console.log('Confidence calculation:', {
+      baseConfidence: baseConfidence.toFixed(1),
+      confidenceBonus,
+      differentiationAdjustment,
+      totalVariance: totalVariance.toFixed(1),
+      rawConfidence: rawConfidence.toFixed(1),
+      finalConfidence,
+    });
 
     const topPriorities = priorities
       .filter(p => p.rank >= 4)

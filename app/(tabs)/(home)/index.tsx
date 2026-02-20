@@ -850,27 +850,36 @@ export default function HomeScreen() {
     const secondBestOption = optionScores[1];
     
     const maxPossibleScore = 110;
-    let baseConfidence = (bestOption.score / maxPossibleScore) * 100;
+    const normalizedScore = (bestOption.score / maxPossibleScore);
     
     const answeredQuestions = Object.keys(answers).length;
     const totalQuestions = getQuestions().length;
-    const completenessBonus = (answeredQuestions / totalQuestions) * 15;
+    const completenessRatio = answeredQuestions / totalQuestions;
     
-    let confidenceAdjustment = completenessBonus;
+    let baseConfidence = 45 + (normalizedScore * 35);
+    
+    const completenessBonus = completenessRatio * 12;
+    baseConfidence += completenessBonus;
+    
     if (secondBestOption) {
       const scoreDifference = bestOption.score - secondBestOption.score;
-      if (scoreDifference < 5) {
-        confidenceAdjustment -= 25;
-      } else if (scoreDifference < 10) {
-        confidenceAdjustment -= 15;
-      } else if (scoreDifference > 20) {
-        confidenceAdjustment += 10;
+      const scoreGap = scoreDifference / maxPossibleScore;
+      
+      if (scoreGap < 0.05) {
+        baseConfidence -= 18;
+      } else if (scoreGap < 0.10) {
+        baseConfidence -= 8;
+      } else if (scoreGap > 0.25) {
+        baseConfidence += 12;
+      } else if (scoreGap > 0.15) {
+        baseConfidence += 6;
       }
     }
     
-    const varianceAdjustment = ((timestamp % 10) - 5);
+    const timeVariance = ((timestamp % 17) - 8) * 0.8;
+    baseConfidence += timeVariance;
     
-    const finalConfidence = Math.max(38, Math.min(92, Math.round(baseConfidence + confidenceAdjustment + varianceAdjustment)));
+    const finalConfidence = Math.max(42, Math.min(91, Math.round(baseConfidence)));
 
     const topPriorities = priorities
       .filter(p => p.rank >= 4)
