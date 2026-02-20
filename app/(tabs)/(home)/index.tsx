@@ -24,8 +24,6 @@ interface AnalysisResult {
   recommendedOption: string;
   confidence: number;
   reasoning: string;
-  statusQuoWarning: string;
-  nextStep: string;
 }
 
 type Step = 'welcome' | 'select-type' | 'define-decision' | 'add-options' | 'guided-questions' | 'priorities' | 'analysis' | 'result';
@@ -722,9 +720,7 @@ export default function HomeScreen() {
       return {
         recommendedOption: 'Take action',
         confidence: 50,
-        reasoning: 'Without specific options to evaluate, the general recommendation is to take action rather than remain in indecision.',
-        statusQuoWarning: 'Staying in analysis paralysis prevents progress. Define clear options to move forward.',
-        nextStep: 'Within the next 24 hours: Write down 2-3 specific options you are considering.',
+        reasoning: 'Without specific options to evaluate, the general recommendation is to take action rather than remain in indecision. Define clear options to move forward with confidence.',
       };
     }
 
@@ -880,34 +876,42 @@ export default function HomeScreen() {
       .filter(p => p.rank >= 4)
       .sort((a, b) => b.rank - a.rank)
       .map(p => p.name.toLowerCase())
-      .slice(0, 2)
-      .join(' and ');
+      .slice(0, 2);
 
-    const reasoning = topPriorities
-      ? `Based on your priorities (${topPriorities}) and your answers to the guided questions, this option shows the strongest alignment with what matters most to you. Your responses indicate positive outcomes with manageable risks.`
-      : 'Based on your answers to the guided questions, this option demonstrates the most favorable balance of potential outcomes, manageable risks, and acceptable costs.';
+    const topPrioritiesText = topPriorities.join(' and ');
 
-    const statusQuoAnswer = answers['nothing'] || '';
-    const statusQuoWarning = statusQuoAnswer.length > 20
-      ? `If you do nothing: ${statusQuoAnswer.substring(0, 150)}${statusQuoAnswer.length > 150 ? '...' : ''}`
-      : 'Maintaining the status quo may lead to missed opportunities. The current situation is unlikely to improve without deliberate action.';
-
-    const nextStep = decisionType === 'career'
-      ? 'Within the next 3 days: Schedule a conversation with someone who has made a similar decision. Ask them what they wish they had known.'
-      : decisionType === 'financial'
-      ? 'Within the next 5 days: Create a detailed budget or financial projection for this decision. Include best-case and worst-case scenarios.'
-      : decisionType === 'education'
-      ? 'Within the next week: Research and contact 2-3 people who have completed this educational path. Ask about their experience and outcomes.'
-      : 'Within the next 3 days: Write down 3 specific questions you need answered before committing. Then identify who or what can answer them.';
+    let reasoning = '';
+    
+    if (topPriorities.length > 0) {
+      reasoning = `This choice aligns most strongly with your highest priorities: ${topPrioritiesText}. `;
+    }
+    
+    reasoning += 'Based on your answers to the guided questions, this option demonstrates the most favorable balance of potential outcomes, manageable risks, and acceptable costs. ';
+    
+    if (bestOption.scoreBreakdown.positiveOutcome > 15) {
+      reasoning += 'Your assessment of the realistic outcomes for this path shows significant positive potential. ';
+    }
+    
+    if (bestOption.scoreBreakdown.managedRisk > 12) {
+      reasoning += 'The risks associated with this choice appear manageable and within your tolerance. ';
+    }
+    
+    if (bestOption.scoreBreakdown.futureRegret > 10) {
+      reasoning += 'Looking ahead, this option minimizes the likelihood of future regret. ';
+    }
+    
+    if (secondBestOption && (bestOption.score - secondBestOption.score) < 10) {
+      reasoning += 'Note that your other options scored similarly, suggesting this is a nuanced decision where multiple paths could work.';
+    } else {
+      reasoning += 'This option stands out clearly from your alternatives based on your stated values and analysis.';
+    }
 
     console.log('Final recommendation:', bestOption.option.text, 'with confidence:', finalConfidence);
 
     return {
       recommendedOption: bestOption.option.text,
       confidence: finalConfidence,
-      reasoning,
-      statusQuoWarning,
-      nextStep,
+      reasoning: reasoning.trim(),
     };
   };
 
@@ -1180,20 +1184,6 @@ export default function HomeScreen() {
                 <Text style={styles.resultSectionTitle}>Why This Choice</Text>
                 <Text style={styles.resultSectionText}>
                   {analysisResult.reasoning}
-                </Text>
-              </View>
-
-              <View style={styles.resultSection}>
-                <Text style={styles.resultSectionTitle}>If You Do Nothing</Text>
-                <Text style={styles.resultSectionText}>
-                  {analysisResult.statusQuoWarning}
-                </Text>
-              </View>
-
-              <View style={styles.resultSection}>
-                <Text style={styles.resultSectionTitle}>Next Step</Text>
-                <Text style={styles.resultSectionText}>
-                  {analysisResult.nextStep}
                 </Text>
               </View>
             </View>
