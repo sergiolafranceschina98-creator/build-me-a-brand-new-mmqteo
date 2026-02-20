@@ -28,265 +28,311 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   scrollContent: {
-    paddingHorizontal: 20,
-    paddingBottom: 250,
-    paddingTop: 24,
+    paddingHorizontal: 24,
+    paddingBottom: 260,
+    paddingTop: 32,
   },
   header: {
-    marginBottom: 36,
+    marginBottom: 48,
   },
   headerTitle: {
-    fontSize: 36,
+    fontSize: 42,
     fontWeight: '900',
     color: colors.text,
-    marginBottom: 12,
-    letterSpacing: -1,
+    marginBottom: 16,
+    letterSpacing: -1.2,
+    lineHeight: 48,
   },
   headerSubtitle: {
-    fontSize: 17,
+    fontSize: 18,
     color: colors.textSecondary,
-    lineHeight: 26,
+    lineHeight: 28,
     fontWeight: '400',
+    letterSpacing: -0.2,
   },
   welcomeCard: {
     backgroundColor: colors.card,
-    borderRadius: 24,
-    padding: 28,
-    marginBottom: 20,
-    shadowColor: colors.shadow,
-    shadowOffset: { width: 0, height: 8 },
+    borderRadius: 28,
+    padding: 32,
+    marginBottom: 24,
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: 12 },
     shadowOpacity: 1,
-    shadowRadius: 24,
-    elevation: 4,
+    shadowRadius: 32,
+    elevation: 6,
+    borderWidth: 1,
+    borderColor: colors.cardBorderLight,
   },
   welcomeIconContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 20,
+    width: 72,
+    height: 72,
+    borderRadius: 22,
     backgroundColor: colors.highlight,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 20,
+    marginBottom: 24,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 3,
   },
   welcomeTitle: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 22,
+    fontWeight: '800',
     color: colors.text,
-    marginBottom: 12,
-    letterSpacing: -0.3,
+    marginBottom: 14,
+    letterSpacing: -0.4,
   },
   welcomeText: {
-    fontSize: 15,
+    fontSize: 16,
     color: colors.textSecondary,
-    lineHeight: 24,
+    lineHeight: 26,
+    letterSpacing: -0.1,
   },
   typeCard: {
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 20,
-    padding: 24,
-    marginBottom: 16,
+    borderRadius: 24,
+    padding: 28,
+    marginBottom: 18,
     flexDirection: 'row',
     alignItems: 'center',
-    shadowColor: colors.shadow,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.5,
-    shadowRadius: 12,
-    elevation: 2,
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.6,
+    shadowRadius: 16,
+    elevation: 3,
   },
   typeCardSelected: {
     borderColor: colors.primary,
+    borderWidth: 3,
     backgroundColor: colors.highlight,
     shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.3,
+    shadowRadius: 24,
+    elevation: 6,
+    transform: [{ scale: 1.02 }],
   },
   typeIconContainer: {
-    width: 56,
-    height: 56,
-    borderRadius: 16,
-    backgroundColor: colors.backgroundAlt,
+    width: 64,
+    height: 64,
+    borderRadius: 18,
+    backgroundColor: colors.backgroundElevated,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 18,
+    marginRight: 20,
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 2,
   },
   typeIconContainerSelected: {
     backgroundColor: colors.primary,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 12,
+    elevation: 4,
   },
   typeContent: {
     flex: 1,
   },
   typeTitle: {
-    fontSize: 19,
-    fontWeight: '700',
+    fontSize: 20,
+    fontWeight: '800',
     color: colors.text,
-    marginBottom: 6,
-    letterSpacing: -0.2,
+    marginBottom: 8,
+    letterSpacing: -0.3,
   },
   typeDescription: {
-    fontSize: 14,
+    fontSize: 15,
     color: colors.textSecondary,
-    lineHeight: 20,
+    lineHeight: 22,
+    letterSpacing: -0.1,
   },
   exampleCard: {
     backgroundColor: colors.highlight,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 20,
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 24,
     borderWidth: 1,
-    borderColor: colors.primary + '20',
+    borderColor: colors.primary + '30',
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 2,
   },
   exampleLabel: {
-    fontSize: 12,
-    fontWeight: '800',
+    fontSize: 13,
+    fontWeight: '900',
     color: colors.primary,
-    marginBottom: 8,
-    letterSpacing: 1,
+    marginBottom: 12,
+    letterSpacing: 1.5,
   },
   exampleText: {
-    fontSize: 15,
+    fontSize: 16,
     color: colors.text,
-    lineHeight: 22,
+    lineHeight: 24,
     fontStyle: 'italic',
+    letterSpacing: -0.1,
   },
   input: {
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 16,
-    padding: 18,
-    fontSize: 16,
+    borderRadius: 18,
+    padding: 20,
+    fontSize: 17,
     color: colors.text,
-    marginBottom: 16,
-    shadowColor: colors.shadow,
+    marginBottom: 18,
+    shadowColor: colors.shadowDark,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.5,
-    shadowRadius: 8,
-    elevation: 1,
+    shadowRadius: 12,
+    elevation: 2,
+    letterSpacing: -0.1,
   },
   inputFocused: {
     borderColor: colors.primary,
+    borderWidth: 3,
+    shadowColor: colors.primary,
+    shadowOpacity: 0.2,
   },
   textArea: {
-    minHeight: 120,
+    minHeight: 140,
     textAlignVertical: 'top',
+    lineHeight: 26,
   },
   optionCard: {
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 12,
+    borderRadius: 18,
+    padding: 22,
+    marginBottom: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    shadowColor: colors.shadow,
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
-    shadowRadius: 8,
-    elevation: 2,
+    shadowRadius: 12,
+    elevation: 3,
   },
   optionText: {
     flex: 1,
-    fontSize: 16,
+    fontSize: 17,
     color: colors.text,
-    fontWeight: '500',
+    fontWeight: '600',
+    letterSpacing: -0.2,
   },
   deleteButton: {
-    padding: 8,
-    marginLeft: 12,
+    padding: 10,
+    marginLeft: 14,
+    borderRadius: 12,
+    backgroundColor: colors.backgroundElevated,
   },
   addButton: {
     backgroundColor: colors.backgroundAlt,
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: colors.primary,
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: 18,
+    padding: 22,
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 28,
     shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15,
+    shadowRadius: 12,
+    elevation: 2,
   },
   addButtonText: {
     color: colors.primary,
-    fontSize: 16,
-    fontWeight: '700',
-    letterSpacing: 0.2,
+    fontSize: 17,
+    fontWeight: '800',
+    letterSpacing: 0.4,
   },
   questionCard: {
     backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.cardBorder,
-    borderRadius: 20,
-    padding: 24,
-    marginBottom: 20,
-    shadowColor: colors.shadow,
-    shadowOffset: { width: 0, height: 4 },
+    borderRadius: 24,
+    padding: 28,
+    marginBottom: 24,
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 1,
-    shadowRadius: 12,
-    elevation: 2,
+    shadowRadius: 16,
+    elevation: 3,
   },
   questionText: {
-    fontSize: 17,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: '700',
     color: colors.text,
-    marginBottom: 16,
-    lineHeight: 26,
+    marginBottom: 18,
+    lineHeight: 28,
+    letterSpacing: -0.3,
   },
   priorityCard: {
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 14,
+    borderRadius: 18,
+    padding: 24,
+    marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    shadowColor: colors.shadow,
-    shadowOffset: { width: 0, height: 2 },
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.5,
-    shadowRadius: 8,
-    elevation: 2,
+    shadowRadius: 12,
+    elevation: 3,
   },
   priorityName: {
-    fontSize: 17,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: '700',
     color: colors.text,
+    letterSpacing: -0.2,
   },
   rankButtons: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 12,
   },
   rankButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
-    backgroundColor: colors.backgroundAlt,
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: colors.backgroundElevated,
     borderWidth: 2,
     borderColor: colors.cardBorder,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 2,
   },
   rankButtonSelected: {
     backgroundColor: colors.primary,
     borderColor: colors.primary,
+    borderWidth: 3,
     shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 5,
+    transform: [{ scale: 1.1 }],
   },
   rankButtonText: {
-    fontSize: 15,
-    fontWeight: '700',
+    fontSize: 16,
+    fontWeight: '800',
     color: colors.text,
   },
   rankButtonTextSelected: {
@@ -296,84 +342,101 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderWidth: 3,
     borderColor: colors.primary,
-    borderRadius: 24,
-    padding: 28,
-    marginBottom: 24,
+    borderRadius: 28,
+    padding: 32,
+    marginBottom: 28,
     shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.2,
-    shadowRadius: 24,
-    elevation: 6,
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.25,
+    shadowRadius: 32,
+    elevation: 8,
   },
   resultTitle: {
-    fontSize: 26,
-    fontWeight: '800',
+    fontSize: 28,
+    fontWeight: '900',
     color: colors.text,
-    marginBottom: 10,
-    letterSpacing: -0.5,
+    marginBottom: 12,
+    letterSpacing: -0.6,
   },
   resultSubtitle: {
-    fontSize: 20,
-    fontWeight: '700',
+    fontSize: 22,
+    fontWeight: '800',
     color: colors.primary,
-    marginBottom: 24,
-    letterSpacing: -0.3,
+    marginBottom: 32,
+    letterSpacing: -0.4,
+    lineHeight: 30,
   },
   resultSection: {
-    marginBottom: 24,
+    marginBottom: 28,
   },
   resultSectionTitle: {
-    fontSize: 17,
-    fontWeight: '700',
+    fontSize: 18,
+    fontWeight: '800',
     color: colors.text,
-    marginBottom: 10,
-    letterSpacing: -0.2,
+    marginBottom: 12,
+    letterSpacing: -0.3,
   },
   resultSectionText: {
-    fontSize: 15,
+    fontSize: 16,
     color: colors.textSecondary,
-    lineHeight: 24,
+    lineHeight: 26,
+    letterSpacing: -0.1,
   },
   confidenceBar: {
-    height: 10,
+    height: 12,
     backgroundColor: colors.cardBorder,
-    borderRadius: 6,
-    marginTop: 12,
+    borderRadius: 8,
+    marginTop: 14,
     overflow: 'hidden',
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 2,
   },
   confidenceFill: {
     height: '100%',
     backgroundColor: colors.success,
-    borderRadius: 6,
+    borderRadius: 8,
+    shadowColor: colors.success,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
   },
   analysisContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical: 80,
+    paddingVertical: 100,
   },
   analysisIconContainer: {
-    width: 96,
-    height: 96,
-    borderRadius: 48,
+    width: 112,
+    height: 112,
+    borderRadius: 56,
     backgroundColor: colors.highlight,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 28,
+    marginBottom: 32,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.25,
+    shadowRadius: 24,
+    elevation: 6,
   },
   analysisTitle: {
-    fontSize: 22,
-    fontWeight: '700',
+    fontSize: 24,
+    fontWeight: '800',
     color: colors.text,
     textAlign: 'center',
-    marginBottom: 12,
-    letterSpacing: -0.3,
+    marginBottom: 14,
+    letterSpacing: -0.4,
   },
   analysisSubtitle: {
-    fontSize: 16,
+    fontSize: 17,
     color: colors.textSecondary,
     textAlign: 'center',
-    lineHeight: 24,
+    lineHeight: 26,
+    letterSpacing: -0.1,
   },
   buttonContainer: {
     position: 'absolute',
@@ -381,29 +444,29 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: colors.background,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: 24,
+    paddingTop: 24,
     paddingBottom: 110,
-    gap: 12,
+    gap: 14,
     borderTopWidth: 1,
     borderTopColor: colors.cardBorder,
     zIndex: 1001,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 8,
+    shadowColor: colors.shadowDark,
+    shadowOffset: { width: 0, height: -6 },
+    shadowOpacity: 0.08,
+    shadowRadius: 16,
+    elevation: 10,
   },
   primaryButton: {
     backgroundColor: colors.primary,
-    paddingVertical: 18,
-    borderRadius: 16,
+    paddingVertical: 20,
+    borderRadius: 18,
     alignItems: 'center',
     shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35,
-    shadowRadius: 16,
-    elevation: 6,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.4,
+    shadowRadius: 20,
+    elevation: 8,
   },
   primaryButtonDisabled: {
     backgroundColor: colors.cardBorder,
@@ -412,22 +475,23 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: '#FFFFFF',
-    fontSize: 17,
-    fontWeight: '700',
-    letterSpacing: 0.3,
+    fontSize: 18,
+    fontWeight: '800',
+    letterSpacing: 0.5,
   },
   secondaryButton: {
     backgroundColor: colors.backgroundAlt,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    paddingVertical: 18,
-    borderRadius: 16,
+    paddingVertical: 20,
+    borderRadius: 18,
     alignItems: 'center',
   },
   secondaryButtonText: {
     color: colors.text,
-    fontSize: 17,
-    fontWeight: '600',
+    fontSize: 18,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
 });
 
@@ -695,7 +759,7 @@ export default function HomeScreen() {
                 <IconSymbol 
                   ios_icon_name="lightbulb.fill"
                   android_material_icon_name="lightbulb" 
-                  size={36} 
+                  size={40} 
                   color={colors.primary}
                 />
               </View>
@@ -733,7 +797,7 @@ export default function HomeScreen() {
                     <IconSymbol
                       ios_icon_name={type.iosIcon}
                       android_material_icon_name={type.icon}
-                      size={28}
+                      size={32}
                       color={isSelected ? '#FFFFFF' : colors.primary}
                     />
                   </View>
@@ -766,7 +830,7 @@ export default function HomeScreen() {
             <TextInput
               style={[styles.input, styles.textArea]}
               placeholder="Describe your decision here..."
-              placeholderTextColor={colors.textSecondary}
+              placeholderTextColor={colors.textTertiary}
               value={decisionText}
               onChangeText={setDecisionText}
               multiline
@@ -777,9 +841,9 @@ export default function HomeScreen() {
               <IconSymbol 
                 ios_icon_name="info.circle.fill"
                 android_material_icon_name="info" 
-                size={24} 
+                size={28} 
                 color={colors.primary}
-                style={{ marginBottom: 12 }}
+                style={{ marginBottom: 14 }}
               />
               <Text style={styles.welcomeText}>
                 Be specific. A clear question leads to a clear answer.
@@ -808,7 +872,7 @@ export default function HomeScreen() {
                   <IconSymbol
                     ios_icon_name="trash.fill"
                     android_material_icon_name="delete"
-                    size={22}
+                    size={24}
                     color={colors.danger}
                   />
                 </TouchableOpacity>
@@ -818,7 +882,7 @@ export default function HomeScreen() {
             <TextInput
               style={styles.input}
               placeholder="Enter an option..."
-              placeholderTextColor={colors.textSecondary}
+              placeholderTextColor={colors.textTertiary}
               value={newOptionText}
               onChangeText={setNewOptionText}
               onSubmitEditing={handleAddOption}
@@ -845,7 +909,7 @@ export default function HomeScreen() {
                 <TextInput
                   style={[styles.input, styles.textArea, { marginBottom: 0 }]}
                   placeholder="Your answer..."
-                  placeholderTextColor={colors.textSecondary}
+                  placeholderTextColor={colors.textTertiary}
                   value={answers[question.id] || ''}
                   onChangeText={(text) => handleAnswerChange(question.id, text)}
                   multiline
@@ -896,7 +960,7 @@ export default function HomeScreen() {
               <IconSymbol 
                 ios_icon_name="brain.head.profile"
                 android_material_icon_name="psychology" 
-                size={56} 
+                size={64} 
                 color={colors.primary}
               />
             </View>
@@ -951,11 +1015,11 @@ export default function HomeScreen() {
               <IconSymbol 
                 ios_icon_name="info.circle"
                 android_material_icon_name="info" 
-                size={24} 
+                size={26} 
                 color={colors.textSecondary}
-                style={{ marginBottom: 12 }}
+                style={{ marginBottom: 14 }}
               />
-              <Text style={[styles.welcomeText, { fontSize: 13 }]}>
+              <Text style={[styles.welcomeText, { fontSize: 14 }]}>
                 This is a thinking tool, not professional advice. For legal, medical, or financial decisions, consult qualified professionals.
               </Text>
             </View>
