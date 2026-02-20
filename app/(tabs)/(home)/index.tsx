@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingBottom: 120,
+    paddingBottom: 180,
     paddingTop: 20,
   },
   header: {
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 100,
     left: 0,
     right: 0,
     backgroundColor: colors.background,
@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
     gap: 12,
     borderTopWidth: 1,
     borderTopColor: colors.cardBorder,
+    zIndex: 1001,
   },
   primaryButton: {
     backgroundColor: colors.primary,
