@@ -15,9 +15,18 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.RealityCheck",
+      "bundleIdentifier": "com.realitycheck.app",
+      "buildNumber": "1",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSPhotoLibraryUsageDescription": "This app needs access to your photo library.",
+        "NSCameraUsageDescription": "This app needs access to your camera."
+      },
+      "icon": "./assets/images/app-icon-nmc.png",
+      "splash": {
+        "image": "./assets/images/app-icon-nmc.png",
+        "resizeMode": "contain",
+        "backgroundColor": "#1a1a2e"
       }
     },
     "android": {
@@ -26,7 +35,8 @@
         "backgroundColor": "#1a1a2e"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.RealityCheck"
+      "package": "com.realitycheck.app",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/images/app-icon-nmc.png",
@@ -43,7 +53,10 @@
     },
     "extra": {
       "router": {},
-      "backendUrl": "https://p8rkpt3q9xkc754dt2csp2b3c2a6gbex.app.specular.dev"
+      "backendUrl": "https://p8rkpt3q9xkc754dt2csp2b3c2a6gbex.app.specular.dev",
+      "eas": {
+        "projectId": "your-project-id"
+      }
     }
   }
 }
