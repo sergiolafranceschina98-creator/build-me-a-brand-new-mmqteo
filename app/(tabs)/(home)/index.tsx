@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingBottom: 100,
+    paddingBottom: 120,
     paddingTop: 20,
   },
   header: {
@@ -229,9 +229,17 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   buttonContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: colors.background,
     paddingHorizontal: 20,
+    paddingTop: 12,
     paddingBottom: 20,
     gap: 12,
+    borderTopWidth: 1,
+    borderTopColor: colors.cardBorder,
   },
   primaryButton: {
     backgroundColor: colors.primary,
@@ -241,6 +249,7 @@ const styles = StyleSheet.create({
   },
   primaryButtonDisabled: {
     backgroundColor: colors.cardBorder,
+    opacity: 0.6,
   },
   primaryButtonText: {
     color: '#FFFFFF',
@@ -726,9 +735,13 @@ export default function HomeScreen() {
         )}
       </ScrollView>
 
-      <View style={styles.buttonContainer}>
+      <View style={styles.buttonContainer} pointerEvents="box-none">
         {step === 'welcome' && (
-          <TouchableOpacity style={styles.primaryButton} onPress={handleStartDecision}>
+          <TouchableOpacity 
+            style={styles.primaryButton} 
+            onPress={handleStartDecision}
+            activeOpacity={0.7}
+          >
             <Text style={styles.primaryButtonText}>Start New Decision</Text>
           </TouchableOpacity>
         )}
@@ -738,6 +751,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canContinueFromType && styles.primaryButtonDisabled]} 
             onPress={handleContinueFromType}
             disabled={!canContinueFromType}
+            activeOpacity={0.7}
           >
             <Text style={styles.primaryButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -748,6 +762,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canContinueFromDefine && styles.primaryButtonDisabled]} 
             onPress={handleContinueFromDefine}
             disabled={!canContinueFromDefine}
+            activeOpacity={0.7}
           >
             <Text style={styles.primaryButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -758,6 +773,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canContinueFromOptions && styles.primaryButtonDisabled]} 
             onPress={handleContinueFromOptions}
             disabled={!canContinueFromOptions}
+            activeOpacity={0.7}
           >
             <Text style={styles.primaryButtonText}>Continue to Questions</Text>
           </TouchableOpacity>
@@ -768,6 +784,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canContinueFromQuestions && styles.primaryButtonDisabled]} 
             onPress={handleContinueFromQuestions}
             disabled={!canContinueFromQuestions}
+            activeOpacity={0.7}
           >
             <Text style={styles.primaryButtonText}>Continue to Priorities</Text>
           </TouchableOpacity>
@@ -778,19 +795,28 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canAnalyze && styles.primaryButtonDisabled]} 
             onPress={handleAnalyze}
             disabled={!canAnalyze}
+            activeOpacity={0.7}
           >
             <Text style={styles.primaryButtonText}>Analyze Decision</Text>
           </TouchableOpacity>
         )}
 
         {step === 'result' && (
-          <TouchableOpacity style={styles.primaryButton} onPress={handleStartOver}>
+          <TouchableOpacity 
+            style={styles.primaryButton} 
+            onPress={handleStartOver}
+            activeOpacity={0.7}
+          >
             <Text style={styles.primaryButtonText}>Start New Decision</Text>
           </TouchableOpacity>
         )}
 
         {step !== 'welcome' && step !== 'analysis' && step !== 'result' && (
-          <TouchableOpacity style={styles.secondaryButton} onPress={handleStartOver}>
+          <TouchableOpacity 
+            style={styles.secondaryButton} 
+            onPress={handleStartOver}
+            activeOpacity={0.7}
+          >
             <Text style={styles.secondaryButtonText}>Start Over</Text>
           </TouchableOpacity>
         )}
