@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { colors, commonStyles, buttonStyles } from "@/styles/commonStyles";
 import { IconSymbol } from "@/components/IconSymbol";
 
-type DecisionType = 'career' | 'financial' | 'life-change' | 'education' | 'health' | 'travel' | 'social' | 'ethical' | null;
+type DecisionType = 'career' | 'financial' | 'life-change' | 'education' | 'personal-growth' | 'travel' | 'social' | 'ethical' | null;
 
 interface DecisionOption {
   id: string;
@@ -526,11 +526,11 @@ const decisionTypes = [
     example: 'Should I go back to school for a Master\'s degree or focus on online certifications?',
   },
   {
-    id: 'health' as DecisionType,
-    title: 'Health & Wellness',
-    description: 'Significant health choices, lifestyle adjustments, or medical treatments',
-    icon: 'favorite',
-    example: 'Should I undergo surgery for my chronic condition or manage it with alternative therapies?',
+    id: 'personal-growth' as DecisionType,
+    title: 'Personal Growth',
+    description: 'Self-improvement, skill development, mindset shifts, or personal transformation',
+    icon: 'self-improvement',
+    example: 'Should I invest time in therapy and self-reflection or focus on building new professional skills?',
   },
   {
     id: 'travel' as DecisionType,
@@ -688,11 +688,11 @@ export default function HomeScreen() {
       ];
     }
 
-    if (decisionType === 'health') {
+    if (decisionType === 'personal-growth') {
       return [
         ...baseQuestions,
-        { id: 'quality', text: 'How will this impact your quality of life in the next year?' },
-        { id: 'support', text: 'What support system do you have in place for this decision?' },
+        { id: 'transformation', text: 'What specific aspect of yourself do you want to transform?' },
+        { id: 'support', text: 'What resources or support system will help you achieve this growth?' },
       ];
     }
 
