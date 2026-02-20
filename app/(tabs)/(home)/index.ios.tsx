@@ -735,9 +735,11 @@ export default function HomeScreen() {
       };
     }
 
+    const allAnswersText = Object.values(answers).join(' ').toLowerCase();
+    
     const optionScores = options.map(option => {
       let score = 0;
-      let scoreBreakdown = {
+      const scoreBreakdown = {
         priorityAlignment: 0,
         positiveOutcome: 0,
         managedRisk: 0,
@@ -745,64 +747,89 @@ export default function HomeScreen() {
         futureRegret: 0,
       };
 
-      const totalPriorityWeight = priorities.reduce((sum, p) => sum + p.rank, 0);
+      const rankedPriorities = priorities.filter(p => p.rank > 0).sort((a, b) => b.rank - a.rank);
       
-      if (totalPriorityWeight > 0) {
-        const highestPriority = priorities.reduce((max, p) => p.rank > max.rank ? p : max, priorities[0]);
-        const priorityScore = (highestPriority.rank / 5) * 25;
-        scoreBreakdown.priorityAlignment = priorityScore;
-        score += priorityScore;
+      if (rankedPriorities.length > 0) {
+        const optionTextLower = option.text.toLowerCase();
+        let priorityScore = 0;
+        
+        rankedPriorities.forEach((priority, index) => {
+          const priorityKeywords = {
+            stability: ['stable', 'steady', 'consistent', 'reliable', 'secure', 'predictable'],
+            growth: ['grow', 'develop', 'advance', 'progress', 'improve', 'expand', 'learn'],
+            freedom: ['free', 'flexible', 'independent', 'autonomous', 'choice', 'control'],
+            security: ['safe', 'secure', 'protected', 'guaranteed', 'certain', 'assured'],
+            happiness: ['happy', 'joy', 'fulfilling', 'satisfying', 'enjoy', 'passion', 'love'],
+          };
+          
+          const keywords = priorityKeywords[priority.id as keyof typeof priorityKeywords] || [];
+          const matchCount = keywords.filter(keyword => 
+            optionTextLower.includes(keyword) || allAnswersText.includes(keyword)
+          ).length;
+          
+          const rankWeight = (6 - index) * priority.rank;
+          priorityScore += matchCount * rankWeight * 2;
+        });
+        
+        scoreBreakdown.priorityAlignment = Math.min(25, priorityScore);
+        score += scoreBreakdown.priorityAlignment;
       }
 
       const outcomeAnswer = answers['outcome'] || '';
-      const positiveWords = ['good', 'positive', 'success', 'growth', 'better', 'improve', 'opportunity', 'benefit', 'gain', 'achieve'];
-      const negativeWords = ['bad', 'negative', 'fail', 'worse', 'decline', 'loss', 'problem', 'difficult', 'struggle'];
-      
-      const positiveCount = positiveWords.filter(word => outcomeAnswer.toLowerCase().includes(word)).length;
-      const negativeCount = negativeWords.filter(word => outcomeAnswer.toLowerCase().includes(word)).length;
-      
       if (outcomeAnswer.length > 20) {
-        const outcomeScore = Math.min(20, (positiveCount * 5) - (negativeCount * 3));
+        const positiveWords = ['good', 'positive', 'success', 'growth', 'better', 'improve', 'opportunity', 'benefit', 'gain', 'achieve', 'excellent', 'great', 'wonderful', 'fantastic', 'promising'];
+        const negativeWords = ['bad', 'negative', 'fail', 'worse', 'decline', 'loss', 'problem', 'difficult', 'struggle', 'poor', 'terrible', 'awful'];
+        
+        const positiveCount = positiveWords.filter(word => outcomeAnswer.toLowerCase().includes(word)).length;
+        const negativeCount = negativeWords.filter(word => outcomeAnswer.toLowerCase().includes(word)).length;
+        
+        const outcomeScore = Math.max(0, Math.min(20, (positiveCount * 4) - (negativeCount * 3) + 5));
         scoreBreakdown.positiveOutcome = outcomeScore;
         score += outcomeScore;
       }
 
       const riskAnswer = answers['risk'] || '';
-      const lowRiskWords = ['manageable', 'small', 'minimal', 'low', 'acceptable', 'reversible'];
-      const highRiskWords = ['catastrophic', 'severe', 'major', 'irreversible', 'dangerous'];
-      
-      const lowRiskCount = lowRiskWords.filter(word => riskAnswer.toLowerCase().includes(word)).length;
-      const highRiskCount = highRiskWords.filter(word => riskAnswer.toLowerCase().includes(word)).length;
-      
       if (riskAnswer.length > 15) {
-        const riskScore = Math.min(20, (lowRiskCount * 5) - (highRiskCount * 4));
+        const lowRiskWords = ['manageable', 'small', 'minimal', 'low', 'acceptable', 'reversible', 'minor', 'slight', 'limited', 'controlled'];
+        const highRiskWords = ['catastrophic', 'severe', 'major', 'irreversible', 'dangerous', 'significant', 'huge', 'enormous', 'critical'];
+        
+        const lowRiskCount = lowRiskWords.filter(word => riskAnswer.toLowerCase().includes(word)).length;
+        const highRiskCount = highRiskWords.filter(word => riskAnswer.toLowerCase().includes(word)).length;
+        
+        const riskScore = Math.max(0, Math.min(20, (lowRiskCount * 4) - (highRiskCount * 3) + 5));
         scoreBreakdown.managedRisk = riskScore;
         score += riskScore;
       }
 
       const costAnswer = answers['cost'] || '';
-      const affordableWords = ['affordable', 'reasonable', 'worth', 'manageable', 'acceptable'];
-      const expensiveWords = ['expensive', 'costly', 'sacrifice', 'overwhelming', 'too much'];
-      
-      const affordableCount = affordableWords.filter(word => costAnswer.toLowerCase().includes(word)).length;
-      const expensiveCount = expensiveWords.filter(word => costAnswer.toLowerCase().includes(word)).length;
-      
       if (costAnswer.length > 15) {
-        const costScore = Math.min(15, (affordableCount * 4) - (expensiveCount * 3));
+        const affordableWords = ['affordable', 'reasonable', 'worth', 'manageable', 'acceptable', 'fair', 'justified', 'worthwhile'];
+        const expensiveWords = ['expensive', 'costly', 'sacrifice', 'overwhelming', 'too much', 'unaffordable', 'excessive'];
+        
+        const affordableCount = affordableWords.filter(word => costAnswer.toLowerCase().includes(word)).length;
+        const expensiveCount = expensiveWords.filter(word => costAnswer.toLowerCase().includes(word)).length;
+        
+        const costScore = Math.max(0, Math.min(15, (affordableCount * 3) - (expensiveCount * 2) + 3));
         scoreBreakdown.worthCost = costScore;
         score += costScore;
       }
 
       const regretAnswer = answers['regret'] || '';
-      const optionMentioned = regretAnswer.toLowerCase().includes(option.text.toLowerCase().substring(0, 15));
-      
-      if (regretAnswer.length > 20 && optionMentioned) {
-        scoreBreakdown.futureRegret = 20;
-        score += 20;
+      if (regretAnswer.length > 20) {
+        const optionWords = option.text.toLowerCase().split(' ').filter(w => w.length > 3);
+        const mentionCount = optionWords.filter(word => regretAnswer.toLowerCase().includes(word)).length;
+        
+        if (mentionCount > 0) {
+          const regretScore = Math.min(20, mentionCount * 5 + 10);
+          scoreBreakdown.futureRegret = regretScore;
+          score += regretScore;
+        }
       }
 
-      const answerCompleteness = Object.keys(answers).length / getQuestions().length;
-      score = score * (0.7 + (answerCompleteness * 0.3));
+      const totalQuestions = getQuestions().length;
+      const answeredQuestions = Object.keys(answers).length;
+      const completenessMultiplier = 0.6 + (answeredQuestions / totalQuestions) * 0.4;
+      score = score * completenessMultiplier;
 
       console.log(`Option "${option.text}" score: ${score.toFixed(1)}`, scoreBreakdown);
 
@@ -819,18 +846,24 @@ export default function HomeScreen() {
     const secondBestOption = optionScores[1];
     
     const maxPossibleScore = 100;
-    const confidencePercentage = Math.min(95, Math.max(35, Math.round((bestOption.score / maxPossibleScore) * 100)));
+    let baseConfidence = (bestOption.score / maxPossibleScore) * 100;
     
-    let confidenceAdjustment = 0;
+    const answeredQuestions = Object.keys(answers).length;
+    const totalQuestions = getQuestions().length;
+    const completenessBonus = (answeredQuestions / totalQuestions) * 10;
+    
+    let confidenceAdjustment = completenessBonus;
     if (secondBestOption && bestOption.score - secondBestOption.score < 10) {
-      confidenceAdjustment = -15;
+      confidenceAdjustment -= 20;
     }
     
-    const finalConfidence = Math.max(35, Math.min(95, confidencePercentage + confidenceAdjustment));
+    const finalConfidence = Math.max(35, Math.min(95, Math.round(baseConfidence + confidenceAdjustment)));
 
     const topPriorities = priorities
       .filter(p => p.rank >= 4)
+      .sort((a, b) => b.rank - a.rank)
       .map(p => p.name.toLowerCase())
+      .slice(0, 2)
       .join(' and ');
 
     const reasoning = topPriorities
