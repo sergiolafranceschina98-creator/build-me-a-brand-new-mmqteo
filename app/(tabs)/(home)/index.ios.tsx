@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingBottom: 180,
+    paddingBottom: 200,
     paddingTop: 20,
   },
   header: {
@@ -229,13 +229,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 0,
     left: 0,
     right: 0,
     backgroundColor: colors.background,
     paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 20,
+    paddingTop: 16,
+    paddingBottom: 110,
     gap: 12,
     borderTopWidth: 1,
     borderTopColor: colors.cardBorder,
@@ -741,13 +741,12 @@ export default function HomeScreen() {
         )}
       </ScrollView>
 
-      <View style={styles.buttonContainer}>
+      <View style={styles.buttonContainer} pointerEvents="box-none">
         {step === 'welcome' && (
           <TouchableOpacity 
             style={styles.primaryButton} 
             onPress={handleStartDecision}
             activeOpacity={0.7}
-            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Start New Decision</Text>
           </TouchableOpacity>
@@ -759,7 +758,6 @@ export default function HomeScreen() {
             onPress={handleContinueFromType}
             disabled={!canContinueFromType}
             activeOpacity={0.7}
-            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -771,7 +769,6 @@ export default function HomeScreen() {
             onPress={handleContinueFromDefine}
             disabled={!canContinueFromDefine}
             activeOpacity={0.7}
-            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -783,7 +780,6 @@ export default function HomeScreen() {
             onPress={handleContinueFromOptions}
             disabled={!canContinueFromOptions}
             activeOpacity={0.7}
-            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Continue to Questions</Text>
           </TouchableOpacity>
@@ -795,7 +791,6 @@ export default function HomeScreen() {
             onPress={handleContinueFromQuestions}
             disabled={!canContinueFromQuestions}
             activeOpacity={0.7}
-            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Continue to Priorities</Text>
           </TouchableOpacity>
@@ -807,7 +802,6 @@ export default function HomeScreen() {
             onPress={handleAnalyze}
             disabled={!canAnalyze}
             activeOpacity={0.7}
-            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Analyze Decision</Text>
           </TouchableOpacity>
@@ -818,7 +812,6 @@ export default function HomeScreen() {
             style={styles.primaryButton} 
             onPress={handleStartOver}
             activeOpacity={0.7}
-            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Start New Decision</Text>
           </TouchableOpacity>
@@ -829,7 +822,6 @@ export default function HomeScreen() {
             style={styles.secondaryButton} 
             onPress={handleStartOver}
             activeOpacity={0.7}
-            pointerEvents="auto"
           >
             <Text style={styles.secondaryButtonText}>Start Over</Text>
           </TouchableOpacity>
