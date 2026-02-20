@@ -1,11 +1,15 @@
 
 import { useTheme } from "@react-navigation/native";
 import { Stack } from "expo-router";
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, TextInput } from "react-native";
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, TextInput, Platform, Dimensions } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import React, { useState } from "react";
 import { colors, commonStyles, buttonStyles } from "@/styles/commonStyles";
 import { IconSymbol } from "@/components/IconSymbol";
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const IS_IPAD = Platform.OS === 'ios' && Platform.isPad;
+const CONTENT_MAX_WIDTH = IS_IPAD ? 700 : SCREEN_WIDTH;
 
 type DecisionType = 'career' | 'financial' | 'life-change' | 'education' | 'personal-growth' | 'travel' | 'social' | 'ethical' | null;
 
@@ -34,23 +38,26 @@ const styles = StyleSheet.create({
     backgroundColor: colors.background,
   },
   scrollContent: {
-    paddingHorizontal: 24,
+    paddingHorizontal: IS_IPAD ? 48 : 24,
     paddingBottom: 260,
     paddingTop: 32,
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: CONTENT_MAX_WIDTH,
   },
   header: {
     marginBottom: 48,
   },
   headerTitle: {
-    fontSize: 42,
+    fontSize: IS_IPAD ? 52 : 42,
     fontWeight: '900',
     color: colors.text,
     marginBottom: 16,
     letterSpacing: -1.2,
-    lineHeight: 48,
+    lineHeight: IS_IPAD ? 58 : 48,
   },
   headerSubtitle: {
-    fontSize: 18,
+    fontSize: IS_IPAD ? 20 : 18,
     color: colors.textSecondary,
     lineHeight: 28,
     fontWeight: '400',
@@ -59,7 +66,7 @@ const styles = StyleSheet.create({
   welcomeCard: {
     backgroundColor: colors.card,
     borderRadius: 28,
-    padding: 32,
+    padding: IS_IPAD ? 40 : 32,
     marginBottom: 24,
     shadowColor: colors.shadowDark,
     shadowOffset: { width: 0, height: 12 },
@@ -84,14 +91,14 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   welcomeTitle: {
-    fontSize: 22,
+    fontSize: IS_IPAD ? 24 : 22,
     fontWeight: '800',
     color: colors.text,
     marginBottom: 14,
     letterSpacing: -0.4,
   },
   welcomeText: {
-    fontSize: 16,
+    fontSize: IS_IPAD ? 18 : 16,
     color: colors.textSecondary,
     lineHeight: 26,
     letterSpacing: -0.1,
@@ -101,7 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.cardBorder,
     borderRadius: 24,
-    padding: 28,
+    padding: IS_IPAD ? 32 : 28,
     marginBottom: 18,
     flexDirection: 'row',
     alignItems: 'center',
@@ -148,14 +155,14 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   typeTitle: {
-    fontSize: 20,
+    fontSize: IS_IPAD ? 22 : 20,
     fontWeight: '800',
     color: colors.text,
     marginBottom: 8,
     letterSpacing: -0.3,
   },
   typeDescription: {
-    fontSize: 15,
+    fontSize: IS_IPAD ? 16 : 15,
     color: colors.textSecondary,
     lineHeight: 22,
     letterSpacing: -0.1,
@@ -163,7 +170,7 @@ const styles = StyleSheet.create({
   exampleCard: {
     backgroundColor: colors.highlight,
     borderRadius: 20,
-    padding: 24,
+    padding: IS_IPAD ? 28 : 24,
     marginBottom: 24,
     borderWidth: 1,
     borderColor: colors.primary + '30',
@@ -181,7 +188,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
   },
   exampleText: {
-    fontSize: 16,
+    fontSize: IS_IPAD ? 18 : 16,
     color: colors.text,
     lineHeight: 24,
     fontStyle: 'italic',
@@ -193,7 +200,7 @@ const styles = StyleSheet.create({
     borderColor: colors.cardBorder,
     borderRadius: 18,
     padding: 20,
-    fontSize: 17,
+    fontSize: IS_IPAD ? 19 : 17,
     color: colors.text,
     marginBottom: 18,
     shadowColor: colors.shadowDark,
@@ -232,7 +239,7 @@ const styles = StyleSheet.create({
   },
   optionText: {
     flex: 1,
-    fontSize: 17,
+    fontSize: IS_IPAD ? 19 : 17,
     color: colors.text,
     fontWeight: '600',
     letterSpacing: -0.2,
@@ -259,7 +266,7 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: colors.primary,
-    fontSize: 17,
+    fontSize: IS_IPAD ? 19 : 17,
     fontWeight: '800',
     letterSpacing: 0.4,
   },
@@ -268,7 +275,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.cardBorder,
     borderRadius: 24,
-    padding: 28,
+    padding: IS_IPAD ? 32 : 28,
     marginBottom: 24,
     shadowColor: colors.shadowDark,
     shadowOffset: { width: 0, height: 6 },
@@ -277,7 +284,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   questionText: {
-    fontSize: 18,
+    fontSize: IS_IPAD ? 20 : 18,
     fontWeight: '700',
     color: colors.text,
     marginBottom: 18,
@@ -289,7 +296,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: colors.cardBorder,
     borderRadius: 18,
-    padding: 24,
+    padding: IS_IPAD ? 28 : 24,
     marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
@@ -301,7 +308,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   priorityName: {
-    fontSize: 18,
+    fontSize: IS_IPAD ? 20 : 18,
     fontWeight: '700',
     color: colors.text,
     letterSpacing: -0.2,
@@ -311,8 +318,8 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   rankButton: {
-    width: 44,
-    height: 44,
+    width: IS_IPAD ? 50 : 44,
+    height: IS_IPAD ? 50 : 44,
     borderRadius: 12,
     backgroundColor: colors.backgroundElevated,
     borderWidth: 2,
@@ -337,7 +344,7 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.1 }],
   },
   rankButtonText: {
-    fontSize: 16,
+    fontSize: IS_IPAD ? 18 : 16,
     fontWeight: '800',
     color: colors.text,
   },
@@ -349,7 +356,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: colors.primary,
     borderRadius: 28,
-    padding: 32,
+    padding: IS_IPAD ? 40 : 32,
     marginBottom: 28,
     shadowColor: colors.primary,
     shadowOffset: { width: 0, height: 12 },
@@ -358,14 +365,14 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   resultTitle: {
-    fontSize: 28,
+    fontSize: IS_IPAD ? 32 : 28,
     fontWeight: '900',
     color: colors.text,
     marginBottom: 12,
     letterSpacing: -0.6,
   },
   resultSubtitle: {
-    fontSize: 22,
+    fontSize: IS_IPAD ? 24 : 22,
     fontWeight: '800',
     color: colors.primary,
     marginBottom: 32,
@@ -376,14 +383,14 @@ const styles = StyleSheet.create({
     marginBottom: 28,
   },
   resultSectionTitle: {
-    fontSize: 18,
+    fontSize: IS_IPAD ? 20 : 18,
     fontWeight: '800',
     color: colors.text,
     marginBottom: 12,
     letterSpacing: -0.3,
   },
   resultSectionText: {
-    fontSize: 16,
+    fontSize: IS_IPAD ? 18 : 16,
     color: colors.textSecondary,
     lineHeight: 26,
     letterSpacing: -0.1,
@@ -430,7 +437,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   analysisTitle: {
-    fontSize: 24,
+    fontSize: IS_IPAD ? 28 : 24,
     fontWeight: '800',
     color: colors.text,
     textAlign: 'center',
@@ -438,7 +445,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.4,
   },
   analysisSubtitle: {
-    fontSize: 17,
+    fontSize: IS_IPAD ? 19 : 17,
     color: colors.textSecondary,
     textAlign: 'center',
     lineHeight: 26,
@@ -450,9 +457,9 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: colors.background,
-    paddingHorizontal: 24,
+    paddingHorizontal: IS_IPAD ? 48 : 24,
     paddingTop: 24,
-    paddingBottom: 110,
+    paddingBottom: IS_IPAD ? 48 : 110,
     gap: 14,
     borderTopWidth: 1,
     borderTopColor: colors.cardBorder,
@@ -463,6 +470,12 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 10,
     pointerEvents: 'box-none',
+    alignItems: 'center',
+  },
+  buttonInner: {
+    width: '100%',
+    maxWidth: CONTENT_MAX_WIDTH,
+    gap: 14,
   },
   primaryButton: {
     backgroundColor: colors.primary,
@@ -483,7 +496,7 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     color: '#FFFFFF',
-    fontSize: 18,
+    fontSize: IS_IPAD ? 20 : 18,
     fontWeight: '800',
     letterSpacing: 0.5,
   },
@@ -498,7 +511,7 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: colors.text,
-    fontSize: 18,
+    fontSize: IS_IPAD ? 20 : 18,
     fontWeight: '700',
     letterSpacing: 0.3,
   },
@@ -510,7 +523,6 @@ const decisionTypes = [
     title: 'Career',
     description: 'Job changes, promotions, career pivots, or leaving a position',
     icon: 'work',
-    iosIcon: 'briefcase.fill',
     example: 'Should I accept the promotion at my current company or pursue the startup opportunity?',
   },
   {
@@ -518,7 +530,6 @@ const decisionTypes = [
     title: 'Financial',
     description: 'Major purchases, investments, or debt management decisions',
     icon: 'payments',
-    iosIcon: 'dollarsign.circle.fill',
     example: 'Should I invest in real estate or put more into my retirement fund?',
   },
   {
@@ -526,7 +537,6 @@ const decisionTypes = [
     title: 'Life Change',
     description: 'Relocation, major lifestyle shifts, or personal milestones',
     icon: 'explore',
-    iosIcon: 'map.fill',
     example: 'Should I move to a new city for a fresh start or stay close to family?',
   },
   {
@@ -534,7 +544,6 @@ const decisionTypes = [
     title: 'Education',
     description: 'Pursuing new skills, degrees, certifications, or learning paths',
     icon: 'school',
-    iosIcon: 'graduationcap.fill',
     example: 'Should I go back to school for a Master\'s degree or focus on online certifications?',
   },
   {
@@ -542,7 +551,6 @@ const decisionTypes = [
     title: 'Personal Growth',
     description: 'Self-improvement, skill development, mindset shifts, or personal transformation',
     icon: 'self-improvement',
-    iosIcon: 'figure.mind.and.body',
     example: 'Should I invest time in therapy and self-reflection or focus on building new professional skills?',
   },
   {
@@ -550,7 +558,6 @@ const decisionTypes = [
     title: 'Travel & Experience',
     description: 'Planning trips, sabbaticals, gap years, or major experiences',
     icon: 'flight',
-    iosIcon: 'airplane',
     example: 'Should I take a gap year to travel the world or save up for a down payment on a house?',
   },
   {
@@ -558,7 +565,6 @@ const decisionTypes = [
     title: 'Social & Relationships',
     description: 'Friendships, partnerships, family dynamics, or community involvement',
     icon: 'group',
-    iosIcon: 'person.3.fill',
     example: 'Should I reconcile with an estranged friend or prioritize new connections?',
   },
   {
@@ -566,7 +572,6 @@ const decisionTypes = [
     title: 'Ethical & Values',
     description: 'Decisions aligned with personal values or moral dilemmas',
     icon: 'balance',
-    iosIcon: 'scale.3d',
     example: 'Should I support a company whose practices I disagree with, for a higher salary?',
   },
 ];
@@ -866,42 +871,30 @@ export default function HomeScreen() {
     const totalQuestions = getQuestions().length;
     const completenessRatio = answeredQuestions / totalQuestions;
     
-    const baseConfidence = 45 + (normalizedScore * 35);
+    let baseConfidence = 45 + (normalizedScore * 35);
     
-    let confidenceBonus = 0;
-    if (completenessRatio >= 0.8) {
-      confidenceBonus += 12;
-    } else if (completenessRatio >= 0.6) {
-      confidenceBonus += 6;
-    }
+    const completenessBonus = completenessRatio * 12;
+    baseConfidence += completenessBonus;
     
-    let differentiationAdjustment = 0;
     if (secondBestOption) {
       const scoreDifference = bestOption.score - secondBestOption.score;
-      if (scoreDifference < 5) {
-        differentiationAdjustment = -18;
-      } else if (scoreDifference < 10) {
-        differentiationAdjustment = -8;
-      } else if (scoreDifference > 20) {
-        differentiationAdjustment = 8;
+      const scoreGap = scoreDifference / maxPossibleScore;
+      
+      if (scoreGap < 0.05) {
+        baseConfidence -= 18;
+      } else if (scoreGap < 0.10) {
+        baseConfidence -= 8;
+      } else if (scoreGap > 0.25) {
+        baseConfidence += 12;
+      } else if (scoreGap > 0.15) {
+        baseConfidence += 6;
       }
     }
     
-    const timeVariance = ((timestamp % 20) - 10);
-    const optionVariance = ((bestOption.option.id.charCodeAt(0) % 15) - 7);
-    const totalVariance = timeVariance + optionVariance;
+    const timeVariance = ((timestamp % 17) - 8) * 0.8;
+    baseConfidence += timeVariance;
     
-    const rawConfidence = baseConfidence + confidenceBonus + differentiationAdjustment + totalVariance;
-    const finalConfidence = Math.max(42, Math.min(89, Math.round(rawConfidence)));
-
-    console.log('Confidence calculation:', {
-      baseConfidence: baseConfidence.toFixed(1),
-      confidenceBonus,
-      differentiationAdjustment,
-      totalVariance: totalVariance.toFixed(1),
-      rawConfidence: rawConfidence.toFixed(1),
-      finalConfidence,
-    });
+    const finalConfidence = Math.max(42, Math.min(91, Math.round(baseConfidence)));
 
     const topPriorities = priorities
       .filter(p => p.rank >= 4)
@@ -1022,7 +1015,7 @@ export default function HomeScreen() {
                 >
                   <View style={[styles.typeIconContainer, isSelected && styles.typeIconContainerSelected]}>
                     <IconSymbol
-                      ios_icon_name={type.iosIcon}
+                      ios_icon_name={type.icon}
                       android_material_icon_name={type.icon}
                       size={32}
                       color={isSelected ? '#FFFFFF' : colors.primary}
@@ -1232,7 +1225,7 @@ export default function HomeScreen() {
                 color={colors.textSecondary}
                 style={{ marginBottom: 14 }}
               />
-              <Text style={[styles.welcomeText, { fontSize: 14 }]}>
+              <Text style={[styles.welcomeText, { fontSize: IS_IPAD ? 16 : 14 }]}>
                 This is a thinking tool, not professional advice. For legal, medical, or financial decisions, consult qualified professionals.
               </Text>
             </View>
@@ -1241,90 +1234,92 @@ export default function HomeScreen() {
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        {step === 'welcome' && (
-          <TouchableOpacity 
-            style={styles.primaryButton} 
-            onPress={handleStartDecision}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.primaryButtonText}>Start New Decision</Text>
-          </TouchableOpacity>
-        )}
+        <View style={styles.buttonInner}>
+          {step === 'welcome' && (
+            <TouchableOpacity 
+              style={styles.primaryButton} 
+              onPress={handleStartDecision}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.primaryButtonText}>Start New Decision</Text>
+            </TouchableOpacity>
+          )}
 
-        {step === 'select-type' && (
-          <TouchableOpacity 
-            style={[styles.primaryButton, !canContinueFromType && styles.primaryButtonDisabled]} 
-            onPress={handleContinueFromType}
-            disabled={!canContinueFromType}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.primaryButtonText}>Continue</Text>
-          </TouchableOpacity>
-        )}
+          {step === 'select-type' && (
+            <TouchableOpacity 
+              style={[styles.primaryButton, !canContinueFromType && styles.primaryButtonDisabled]} 
+              onPress={handleContinueFromType}
+              disabled={!canContinueFromType}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.primaryButtonText}>Continue</Text>
+            </TouchableOpacity>
+          )}
 
-        {step === 'define-decision' && (
-          <TouchableOpacity 
-            style={[styles.primaryButton, !canContinueFromDefine && styles.primaryButtonDisabled]} 
-            onPress={handleContinueFromDefine}
-            disabled={!canContinueFromDefine}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.primaryButtonText}>Continue</Text>
-          </TouchableOpacity>
-        )}
+          {step === 'define-decision' && (
+            <TouchableOpacity 
+              style={[styles.primaryButton, !canContinueFromDefine && styles.primaryButtonDisabled]} 
+              onPress={handleContinueFromDefine}
+              disabled={!canContinueFromDefine}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.primaryButtonText}>Continue</Text>
+            </TouchableOpacity>
+          )}
 
-        {step === 'add-options' && (
-          <TouchableOpacity 
-            style={[styles.primaryButton, !canContinueFromOptions && styles.primaryButtonDisabled]} 
-            onPress={handleContinueFromOptions}
-            disabled={!canContinueFromOptions}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.primaryButtonText}>Continue to Questions</Text>
-          </TouchableOpacity>
-        )}
+          {step === 'add-options' && (
+            <TouchableOpacity 
+              style={[styles.primaryButton, !canContinueFromOptions && styles.primaryButtonDisabled]} 
+              onPress={handleContinueFromOptions}
+              disabled={!canContinueFromOptions}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.primaryButtonText}>Continue to Questions</Text>
+            </TouchableOpacity>
+          )}
 
-        {step === 'guided-questions' && (
-          <TouchableOpacity 
-            style={[styles.primaryButton, !canContinueFromQuestions && styles.primaryButtonDisabled]} 
-            onPress={handleContinueFromQuestions}
-            disabled={!canContinueFromQuestions}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.primaryButtonText}>Continue to Priorities</Text>
-          </TouchableOpacity>
-        )}
+          {step === 'guided-questions' && (
+            <TouchableOpacity 
+              style={[styles.primaryButton, !canContinueFromQuestions && styles.primaryButtonDisabled]} 
+              onPress={handleContinueFromQuestions}
+              disabled={!canContinueFromQuestions}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.primaryButtonText}>Continue to Priorities</Text>
+            </TouchableOpacity>
+          )}
 
-        {step === 'priorities' && (
-          <TouchableOpacity 
-            style={[styles.primaryButton, !canAnalyze && styles.primaryButtonDisabled]} 
-            onPress={handleAnalyze}
-            disabled={!canAnalyze}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.primaryButtonText}>Analyze Decision</Text>
-          </TouchableOpacity>
-        )}
+          {step === 'priorities' && (
+            <TouchableOpacity 
+              style={[styles.primaryButton, !canAnalyze && styles.primaryButtonDisabled]} 
+              onPress={handleAnalyze}
+              disabled={!canAnalyze}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.primaryButtonText}>Analyze Decision</Text>
+            </TouchableOpacity>
+          )}
 
-        {step === 'result' && (
-          <TouchableOpacity 
-            style={styles.primaryButton} 
-            onPress={handleStartOver}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.primaryButtonText}>Start New Decision</Text>
-          </TouchableOpacity>
-        )}
+          {step === 'result' && (
+            <TouchableOpacity 
+              style={styles.primaryButton} 
+              onPress={handleStartOver}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.primaryButtonText}>Start New Decision</Text>
+            </TouchableOpacity>
+          )}
 
-        {step !== 'welcome' && step !== 'analysis' && step !== 'result' && (
-          <TouchableOpacity 
-            style={styles.secondaryButton} 
-            onPress={handleStartOver}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.secondaryButtonText}>Start Over</Text>
-          </TouchableOpacity>
-        )}
+          {step !== 'welcome' && step !== 'analysis' && step !== 'result' && (
+            <TouchableOpacity 
+              style={styles.secondaryButton} 
+              onPress={handleStartOver}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.secondaryButtonText}>Start Over</Text>
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
     </SafeAreaView>
   );
