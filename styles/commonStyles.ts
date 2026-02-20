@@ -3,18 +3,20 @@ import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 
 export const colors = {
   primary: '#6366F1',      // Indigo - clarity and focus
+  primaryDark: '#4F46E5',  // Darker indigo for depth
   secondary: '#8B5CF6',    // Purple - wisdom and insight
   accent: '#EC4899',       // Pink - emotional awareness
-  background: '#F9FAFB',   // Light gray - calm and clean
+  background: '#F8F9FC',   // Slightly blue-tinted light gray
   backgroundAlt: '#FFFFFF', // White - clarity
-  text: '#111827',         // Dark gray - readable
-  textSecondary: '#6B7280', // Medium gray - subtle
+  text: '#0F172A',         // Darker for better contrast
+  textSecondary: '#64748B', // Slate gray - subtle
   card: '#FFFFFF',         // White cards
-  cardBorder: '#E5E7EB',   // Light border
+  cardBorder: '#E2E8F0',   // Softer border
   success: '#10B981',      // Green - positive outcome
   warning: '#F59E0B',      // Amber - caution
   danger: '#EF4444',       // Red - risk
-  highlight: '#EDE9FE',    // Light purple - emphasis
+  highlight: '#EEF2FF',    // Light indigo - emphasis
+  shadow: 'rgba(99, 102, 241, 0.08)', // Primary color shadow
 };
 
 export const buttonStyles = StyleSheet.create({
@@ -22,15 +24,20 @@ export const buttonStyles = StyleSheet.create({
     backgroundColor: colors.primary,
     paddingVertical: 16,
     paddingHorizontal: 24,
-    borderRadius: 12,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 12,
+    elevation: 6,
   },
   secondaryButton: {
     backgroundColor: colors.backgroundAlt,
     paddingVertical: 16,
     paddingHorizontal: 24,
-    borderRadius: 12,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
@@ -39,7 +46,8 @@ export const buttonStyles = StyleSheet.create({
   primaryButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   secondaryButtonText: {
     color: colors.text,
@@ -66,16 +74,18 @@ export const commonStyles = StyleSheet.create({
     paddingTop: 20,
   },
   title: {
-    fontSize: 28,
-    fontWeight: '700',
+    fontSize: 32,
+    fontWeight: '800',
     color: colors.text,
     marginBottom: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '700',
     color: colors.text,
     marginBottom: 12,
+    letterSpacing: -0.2,
   },
   text: {
     fontSize: 16,
@@ -84,23 +94,23 @@ export const commonStyles = StyleSheet.create({
     lineHeight: 24,
   },
   textSecondary: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: '400',
     color: colors.textSecondary,
-    lineHeight: 20,
+    lineHeight: 22,
   },
   card: {
     backgroundColor: colors.card,
     borderColor: colors.cardBorder,
     borderWidth: 1,
-    borderRadius: 16,
-    padding: 20,
+    borderRadius: 20,
+    padding: 24,
     marginBottom: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 8,
-    elevation: 2,
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 16,
+    elevation: 3,
   },
   section: {
     marginBottom: 24,

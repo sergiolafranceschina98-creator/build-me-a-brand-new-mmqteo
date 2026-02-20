@@ -31,19 +31,53 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: 20,
     paddingBottom: 250,
-    paddingTop: 20,
+    paddingTop: 24,
   },
   header: {
-    marginBottom: 32,
+    marginBottom: 36,
   },
   headerTitle: {
-    fontSize: 32,
-    fontWeight: '800',
+    fontSize: 36,
+    fontWeight: '900',
     color: colors.text,
-    marginBottom: 8,
+    marginBottom: 12,
+    letterSpacing: -1,
   },
   headerSubtitle: {
-    fontSize: 16,
+    fontSize: 17,
+    color: colors.textSecondary,
+    lineHeight: 26,
+    fontWeight: '400',
+  },
+  welcomeCard: {
+    backgroundColor: colors.card,
+    borderRadius: 24,
+    padding: 28,
+    marginBottom: 20,
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 1,
+    shadowRadius: 24,
+    elevation: 4,
+  },
+  welcomeIconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 20,
+    backgroundColor: colors.highlight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 20,
+  },
+  welcomeTitle: {
+    fontSize: 20,
+    fontWeight: '700',
+    color: colors.text,
+    marginBottom: 12,
+    letterSpacing: -0.3,
+  },
+  welcomeText: {
+    fontSize: 15,
     color: colors.textSecondary,
     lineHeight: 24,
   },
@@ -51,27 +85,47 @@ const styles = StyleSheet.create({
     backgroundColor: colors.card,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 12,
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 16,
     flexDirection: 'row',
     alignItems: 'center',
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 12,
+    elevation: 2,
   },
   typeCardSelected: {
     borderColor: colors.primary,
     backgroundColor: colors.highlight,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 16,
+    elevation: 4,
   },
-  typeIcon: {
-    marginRight: 16,
+  typeIconContainer: {
+    width: 56,
+    height: 56,
+    borderRadius: 16,
+    backgroundColor: colors.backgroundAlt,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 18,
+  },
+  typeIconContainerSelected: {
+    backgroundColor: colors.primary,
   },
   typeContent: {
     flex: 1,
   },
   typeTitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 19,
+    fontWeight: '700',
     color: colors.text,
-    marginBottom: 4,
+    marginBottom: 6,
+    letterSpacing: -0.2,
   },
   typeDescription: {
     fontSize: 14,
@@ -79,111 +133,145 @@ const styles = StyleSheet.create({
     lineHeight: 20,
   },
   exampleCard: {
-    backgroundColor: colors.backgroundAlt,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 16,
+    backgroundColor: colors.highlight,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: colors.primary + '20',
   },
   exampleLabel: {
-    fontSize: 13,
-    fontWeight: '600',
+    fontSize: 12,
+    fontWeight: '800',
     color: colors.primary,
-    marginBottom: 6,
+    marginBottom: 8,
+    letterSpacing: 1,
   },
   exampleText: {
-    fontSize: 14,
+    fontSize: 15,
     color: colors.text,
-    lineHeight: 20,
+    lineHeight: 22,
     fontStyle: 'italic',
   },
   input: {
     backgroundColor: colors.card,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 12,
-    padding: 16,
+    borderRadius: 16,
+    padding: 18,
     fontSize: 16,
     color: colors.text,
     marginBottom: 16,
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 1,
+  },
+  inputFocused: {
+    borderColor: colors.primary,
   },
   textArea: {
-    minHeight: 100,
+    minHeight: 120,
     textAlignVertical: 'top',
   },
   optionCard: {
     backgroundColor: colors.card,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 12,
-    padding: 16,
+    borderRadius: 16,
+    padding: 20,
     marginBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 2,
   },
   optionText: {
     flex: 1,
     fontSize: 16,
     color: colors.text,
+    fontWeight: '500',
   },
   deleteButton: {
     padding: 8,
+    marginLeft: 12,
   },
   addButton: {
     backgroundColor: colors.backgroundAlt,
     borderWidth: 2,
     borderColor: colors.primary,
-    borderRadius: 12,
-    padding: 16,
+    borderRadius: 16,
+    padding: 20,
     alignItems: 'center',
     marginBottom: 24,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 1,
   },
   addButtonText: {
     color: colors.primary,
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
   questionCard: {
     backgroundColor: colors.card,
     borderWidth: 1,
     borderColor: colors.cardBorder,
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
+    borderRadius: 20,
+    padding: 24,
+    marginBottom: 20,
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 1,
+    shadowRadius: 12,
+    elevation: 2,
   },
   questionText: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
     color: colors.text,
-    marginBottom: 12,
-    lineHeight: 24,
+    marginBottom: 16,
+    lineHeight: 26,
   },
   priorityCard: {
     backgroundColor: colors.card,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.cardBorder,
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    shadowColor: colors.shadow,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 2,
   },
   priorityName: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 17,
+    fontWeight: '600',
     color: colors.text,
   },
   rankButtons: {
     flexDirection: 'row',
-    gap: 8,
+    gap: 10,
   },
   rankButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 8,
+    width: 40,
+    height: 40,
+    borderRadius: 10,
     backgroundColor: colors.backgroundAlt,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: colors.cardBorder,
     alignItems: 'center',
     justifyContent: 'center',
@@ -191,10 +279,15 @@ const styles = StyleSheet.create({
   rankButtonSelected: {
     backgroundColor: colors.primary,
     borderColor: colors.primary,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 6,
+    elevation: 3,
   },
   rankButtonText: {
-    fontSize: 14,
-    fontWeight: '600',
+    fontSize: 15,
+    fontWeight: '700',
     color: colors.text,
   },
   rankButtonTextSelected: {
@@ -202,49 +295,86 @@ const styles = StyleSheet.create({
   },
   resultCard: {
     backgroundColor: colors.card,
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: colors.primary,
-    borderRadius: 16,
-    padding: 24,
+    borderRadius: 24,
+    padding: 28,
     marginBottom: 24,
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.2,
+    shadowRadius: 24,
+    elevation: 6,
   },
   resultTitle: {
-    fontSize: 24,
-    fontWeight: '700',
+    fontSize: 26,
+    fontWeight: '800',
     color: colors.text,
-    marginBottom: 8,
+    marginBottom: 10,
+    letterSpacing: -0.5,
   },
   resultSubtitle: {
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 20,
+    fontWeight: '700',
     color: colors.primary,
-    marginBottom: 16,
+    marginBottom: 24,
+    letterSpacing: -0.3,
   },
   resultSection: {
-    marginBottom: 20,
+    marginBottom: 24,
   },
   resultSectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: '700',
     color: colors.text,
-    marginBottom: 8,
+    marginBottom: 10,
+    letterSpacing: -0.2,
   },
   resultSectionText: {
     fontSize: 15,
-    color: colors.text,
-    lineHeight: 22,
+    color: colors.textSecondary,
+    lineHeight: 24,
   },
   confidenceBar: {
-    height: 8,
+    height: 10,
     backgroundColor: colors.cardBorder,
-    borderRadius: 4,
-    marginTop: 8,
+    borderRadius: 6,
+    marginTop: 12,
     overflow: 'hidden',
   },
   confidenceFill: {
     height: '100%',
     backgroundColor: colors.success,
-    borderRadius: 4,
+    borderRadius: 6,
+  },
+  analysisContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 80,
+  },
+  analysisIconContainer: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    backgroundColor: colors.highlight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 28,
+  },
+  analysisTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: 12,
+    letterSpacing: -0.3,
+  },
+  analysisSubtitle: {
+    fontSize: 16,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    lineHeight: 24,
   },
   buttonContainer: {
     position: 'absolute',
@@ -253,39 +383,51 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: colors.background,
     paddingHorizontal: 20,
-    paddingTop: 16,
+    paddingTop: 20,
     paddingBottom: 110,
     gap: 12,
     borderTopWidth: 1,
     borderTopColor: colors.cardBorder,
     zIndex: 1001,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 8,
   },
   primaryButton: {
     backgroundColor: colors.primary,
-    paddingVertical: 16,
-    borderRadius: 12,
+    paddingVertical: 18,
+    borderRadius: 16,
     alignItems: 'center',
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
+    elevation: 6,
   },
   primaryButtonDisabled: {
     backgroundColor: colors.cardBorder,
-    opacity: 0.6,
+    opacity: 0.5,
+    shadowOpacity: 0,
   },
   primaryButtonText: {
     color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 17,
+    fontWeight: '700',
+    letterSpacing: 0.3,
   },
   secondaryButton: {
     backgroundColor: colors.backgroundAlt,
     borderWidth: 2,
     borderColor: colors.cardBorder,
-    paddingVertical: 16,
-    borderRadius: 12,
+    paddingVertical: 18,
+    borderRadius: 16,
     alignItems: 'center',
   },
   secondaryButtonText: {
     color: colors.text,
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '600',
   },
 });
@@ -541,15 +683,16 @@ export default function HomeScreen() {
               </Text>
             </View>
 
-            <View style={commonStyles.card}>
-              <IconSymbol 
-                android_material_icon_name="lightbulb" 
-                size={48} 
-                color={colors.primary}
-                style={{ marginBottom: 16 }}
-              />
-              <Text style={[commonStyles.subtitle, { marginBottom: 8 }]}>How it works</Text>
-              <Text style={commonStyles.textSecondary}>
+            <View style={styles.welcomeCard}>
+              <View style={styles.welcomeIconContainer}>
+                <IconSymbol 
+                  android_material_icon_name="lightbulb" 
+                  size={36} 
+                  color={colors.primary}
+                />
+              </View>
+              <Text style={styles.welcomeTitle}>How it works</Text>
+              <Text style={styles.welcomeText}>
                 1. Choose your decision type{'\n'}
                 2. Define your options{'\n'}
                 3. Answer guided questions{'\n'}
@@ -558,15 +701,16 @@ export default function HomeScreen() {
               </Text>
             </View>
 
-            <View style={commonStyles.card}>
-              <IconSymbol 
-                android_material_icon_name="lock" 
-                size={32} 
-                color={colors.success}
-                style={{ marginBottom: 12 }}
-              />
-              <Text style={[commonStyles.subtitle, { marginBottom: 8 }]}>Private & Offline</Text>
-              <Text style={commonStyles.textSecondary}>
+            <View style={styles.welcomeCard}>
+              <View style={styles.welcomeIconContainer}>
+                <IconSymbol 
+                  android_material_icon_name="lock" 
+                  size={32} 
+                  color={colors.success}
+                />
+              </View>
+              <Text style={styles.welcomeTitle}>Private & Offline</Text>
+              <Text style={styles.welcomeText}>
                 All data stays on your device. No accounts, no internet required, no tracking.
               </Text>
             </View>
@@ -589,13 +733,15 @@ export default function HomeScreen() {
                   key={type.id}
                   style={[styles.typeCard, isSelected && styles.typeCardSelected]}
                   onPress={() => handleSelectType(type.id)}
+                  activeOpacity={0.7}
                 >
-                  <IconSymbol
-                    android_material_icon_name={type.icon}
-                    size={32}
-                    color={isSelected ? colors.primary : colors.textSecondary}
-                    style={styles.typeIcon}
-                  />
+                  <View style={[styles.typeIconContainer, isSelected && styles.typeIconContainerSelected]}>
+                    <IconSymbol
+                      android_material_icon_name={type.icon}
+                      size={28}
+                      color={isSelected ? '#FFFFFF' : colors.primary}
+                    />
+                  </View>
                   <View style={styles.typeContent}>
                     <Text style={styles.typeTitle}>{type.title}</Text>
                     <Text style={styles.typeDescription}>{type.description}</Text>
@@ -632,14 +778,14 @@ export default function HomeScreen() {
               numberOfLines={4}
             />
 
-            <View style={commonStyles.card}>
+            <View style={styles.welcomeCard}>
               <IconSymbol 
                 android_material_icon_name="info" 
                 size={24} 
                 color={colors.primary}
-                style={{ marginBottom: 8 }}
+                style={{ marginBottom: 12 }}
               />
-              <Text style={commonStyles.textSecondary}>
+              <Text style={styles.welcomeText}>
                 Be specific. A clear question leads to a clear answer.
               </Text>
             </View>
@@ -661,10 +807,11 @@ export default function HomeScreen() {
                 <TouchableOpacity
                   style={styles.deleteButton}
                   onPress={() => handleDeleteOption(option.id)}
+                  activeOpacity={0.7}
                 >
                   <IconSymbol
                     android_material_icon_name="delete"
-                    size={20}
+                    size={22}
                     color={colors.danger}
                   />
                 </TouchableOpacity>
@@ -680,7 +827,7 @@ export default function HomeScreen() {
               onSubmitEditing={handleAddOption}
             />
 
-            <TouchableOpacity style={styles.addButton} onPress={handleAddOption}>
+            <TouchableOpacity style={styles.addButton} onPress={handleAddOption} activeOpacity={0.7}>
               <Text style={styles.addButtonText}>+ Add Option</Text>
             </TouchableOpacity>
           </View>
@@ -732,6 +879,7 @@ export default function HomeScreen() {
                         key={rank}
                         style={[styles.rankButton, isSelected && styles.rankButtonSelected]}
                         onPress={() => handleSetPriority(priority.id, rank)}
+                        activeOpacity={0.7}
                       >
                         <Text style={[styles.rankButtonText, isSelected && styles.rankButtonTextSelected]}>
                           {rank}
@@ -746,15 +894,16 @@ export default function HomeScreen() {
         )}
 
         {step === 'analysis' && (
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 60 }}>
-            <IconSymbol 
-              android_material_icon_name="psychology" 
-              size={64} 
-              color={colors.primary}
-              style={{ marginBottom: 24 }}
-            />
-            <Text style={[commonStyles.subtitle, { textAlign: 'center' }]}>Analyzing your decision...</Text>
-            <Text style={[commonStyles.textSecondary, { textAlign: 'center', marginTop: 8 }]}>
+          <View style={styles.analysisContainer}>
+            <View style={styles.analysisIconContainer}>
+              <IconSymbol 
+                android_material_icon_name="psychology" 
+                size={56} 
+                color={colors.primary}
+              />
+            </View>
+            <Text style={styles.analysisTitle}>Analyzing your decision...</Text>
+            <Text style={styles.analysisSubtitle}>
               Evaluating options against your priorities
             </Text>
           </View>
@@ -800,14 +949,14 @@ export default function HomeScreen() {
               </View>
             </View>
 
-            <View style={commonStyles.card}>
+            <View style={styles.welcomeCard}>
               <IconSymbol 
                 android_material_icon_name="info" 
                 size={24} 
                 color={colors.textSecondary}
-                style={{ marginBottom: 8 }}
+                style={{ marginBottom: 12 }}
               />
-              <Text style={[commonStyles.textSecondary, { fontSize: 13 }]}>
+              <Text style={[styles.welcomeText, { fontSize: 13 }]}>
                 This is a thinking tool, not professional advice. For legal, medical, or financial decisions, consult qualified professionals.
               </Text>
             </View>
@@ -820,7 +969,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             style={styles.primaryButton} 
             onPress={handleStartDecision}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.primaryButtonText}>Start New Decision</Text>
           </TouchableOpacity>
@@ -831,7 +980,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canContinueFromType && styles.primaryButtonDisabled]} 
             onPress={handleContinueFromType}
             disabled={!canContinueFromType}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.primaryButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -842,7 +991,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canContinueFromDefine && styles.primaryButtonDisabled]} 
             onPress={handleContinueFromDefine}
             disabled={!canContinueFromDefine}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.primaryButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -853,7 +1002,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canContinueFromOptions && styles.primaryButtonDisabled]} 
             onPress={handleContinueFromOptions}
             disabled={!canContinueFromOptions}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.primaryButtonText}>Continue to Questions</Text>
           </TouchableOpacity>
@@ -864,7 +1013,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canContinueFromQuestions && styles.primaryButtonDisabled]} 
             onPress={handleContinueFromQuestions}
             disabled={!canContinueFromQuestions}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.primaryButtonText}>Continue to Priorities</Text>
           </TouchableOpacity>
@@ -875,7 +1024,7 @@ export default function HomeScreen() {
             style={[styles.primaryButton, !canAnalyze && styles.primaryButtonDisabled]} 
             onPress={handleAnalyze}
             disabled={!canAnalyze}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.primaryButtonText}>Analyze Decision</Text>
           </TouchableOpacity>
@@ -885,7 +1034,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             style={styles.primaryButton} 
             onPress={handleStartOver}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.primaryButtonText}>Start New Decision</Text>
           </TouchableOpacity>
@@ -895,7 +1044,7 @@ export default function HomeScreen() {
           <TouchableOpacity 
             style={styles.secondaryButton} 
             onPress={handleStartOver}
-            activeOpacity={0.7}
+            activeOpacity={0.8}
           >
             <Text style={styles.secondaryButtonText}>Start Over</Text>
           </TouchableOpacity>
