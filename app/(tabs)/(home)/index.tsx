@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { colors, commonStyles, buttonStyles } from "@/styles/commonStyles";
 import { IconSymbol } from "@/components/IconSymbol";
 
-type DecisionType = 'career' | 'relationship' | 'financial' | 'life-change' | null;
+type DecisionType = 'career' | 'financial' | 'life-change' | 'education' | 'health' | 'travel' | 'social' | 'ethical' | null;
 
 interface DecisionOption {
   id: string;
@@ -77,6 +77,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textSecondary,
     lineHeight: 20,
+  },
+  exampleCard: {
+    backgroundColor: colors.backgroundAlt,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+  },
+  exampleLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.primary,
+    marginBottom: 6,
+  },
+  exampleText: {
+    fontSize: 14,
+    color: colors.text,
+    lineHeight: 20,
+    fontStyle: 'italic',
   },
   input: {
     backgroundColor: colors.card,
@@ -275,27 +293,59 @@ const styles = StyleSheet.create({
 const decisionTypes = [
   {
     id: 'career' as DecisionType,
-    title: 'Career Decision',
-    description: 'Job changes, promotions, career pivots',
+    title: 'Career',
+    description: 'Job changes, promotions, career pivots, or leaving a position',
     icon: 'work',
-  },
-  {
-    id: 'relationship' as DecisionType,
-    title: 'Relationship',
-    description: 'Personal relationships, commitments, boundaries',
-    icon: 'favorite',
+    example: 'Should I accept the promotion at my current company or pursue the startup opportunity?',
   },
   {
     id: 'financial' as DecisionType,
     title: 'Financial',
-    description: 'Major purchases, investments, financial commitments',
+    description: 'Major purchases, investments, or debt management decisions',
     icon: 'payments',
+    example: 'Should I invest in real estate or put more into my retirement fund?',
   },
   {
     id: 'life-change' as DecisionType,
     title: 'Life Change',
-    description: 'Moving, lifestyle changes, major life decisions',
+    description: 'Relocation, major lifestyle shifts, or personal milestones',
     icon: 'explore',
+    example: 'Should I move to a new city for a fresh start or stay close to family?',
+  },
+  {
+    id: 'education' as DecisionType,
+    title: 'Education',
+    description: 'Pursuing new skills, degrees, certifications, or learning paths',
+    icon: 'school',
+    example: 'Should I go back to school for a Master\'s degree or focus on online certifications?',
+  },
+  {
+    id: 'health' as DecisionType,
+    title: 'Health & Wellness',
+    description: 'Significant health choices, lifestyle adjustments, or medical treatments',
+    icon: 'favorite',
+    example: 'Should I undergo surgery for my chronic condition or manage it with alternative therapies?',
+  },
+  {
+    id: 'travel' as DecisionType,
+    title: 'Travel & Experience',
+    description: 'Planning trips, sabbaticals, gap years, or major experiences',
+    icon: 'flight',
+    example: 'Should I take a gap year to travel the world or save up for a down payment on a house?',
+  },
+  {
+    id: 'social' as DecisionType,
+    title: 'Social & Relationships',
+    description: 'Friendships, partnerships, family dynamics, or community involvement',
+    icon: 'group',
+    example: 'Should I reconcile with an estranged friend or prioritize new connections?',
+  },
+  {
+    id: 'ethical' as DecisionType,
+    title: 'Ethical & Values',
+    description: 'Decisions aligned with personal values or moral dilemmas',
+    icon: 'balance',
+    example: 'Should I support a company whose practices I disagree with, for a higher salary?',
   },
 ];
 
@@ -424,6 +474,22 @@ export default function HomeScreen() {
       ];
     }
 
+    if (decisionType === 'education') {
+      return [
+        ...baseQuestions,
+        { id: 'roi', text: 'What is the expected return on investment (time and money)?' },
+        { id: 'commitment', text: 'Can you realistically commit to the time and effort required?' },
+      ];
+    }
+
+    if (decisionType === 'health') {
+      return [
+        ...baseQuestions,
+        { id: 'quality', text: 'How will this impact your quality of life in the next year?' },
+        { id: 'support', text: 'What support system do you have in place for this decision?' },
+      ];
+    }
+
     return baseQuestions;
   };
 
@@ -438,6 +504,11 @@ export default function HomeScreen() {
     return optionText;
   };
 
+  const getSelectedTypeExample = () => {
+    const selectedType = decisionTypes.find(type => type.id === decisionType);
+    return selectedType?.example || '';
+  };
+
   const canContinueFromType = decisionType !== null;
   const canContinueFromDefine = decisionText.trim().length > 0;
   const canContinueFromOptions = options.length >= 2;
@@ -446,6 +517,7 @@ export default function HomeScreen() {
 
   const recommendedOption = calculateRecommendation();
   const confidence = 78;
+  const selectedTypeExample = getSelectedTypeExample();
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -543,9 +615,16 @@ export default function HomeScreen() {
               </Text>
             </View>
 
+            {selectedTypeExample && (
+              <View style={styles.exampleCard}>
+                <Text style={styles.exampleLabel}>EXAMPLE</Text>
+                <Text style={styles.exampleText}>{selectedTypeExample}</Text>
+              </View>
+            )}
+
             <TextInput
               style={[styles.input, styles.textArea]}
-              placeholder="Example: Should I accept the job offer at the new company?"
+              placeholder="Describe your decision here..."
               placeholderTextColor={colors.textSecondary}
               value={decisionText}
               onChangeText={setDecisionText}
