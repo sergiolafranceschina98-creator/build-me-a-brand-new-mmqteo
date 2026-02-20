@@ -15,14 +15,17 @@
       "distribution": "internal",
       "ios": {
         "simulator": false,
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "resourceClass": "m-medium"
       }
     },
     "production": {
       "distribution": "store",
+      "autoIncrement": true,
       "ios": {
         "simulator": false,
-        "buildConfiguration": "Release"
+        "buildConfiguration": "Release",
+        "resourceClass": "m-medium"
       },
       "android": {
         "buildType": "apk"
