@@ -463,6 +463,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 16,
     elevation: 10,
+    pointerEvents: 'box-none',
   },
   primaryButton: {
     backgroundColor: colors.primary,
@@ -474,6 +475,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 20,
     elevation: 8,
+    pointerEvents: 'auto',
   },
   primaryButtonDisabled: {
     backgroundColor: colors.cardBorder,
@@ -493,6 +495,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     borderRadius: 18,
     alignItems: 'center',
+    pointerEvents: 'auto',
   },
   secondaryButtonText: {
     color: colors.text,
@@ -1212,7 +1215,7 @@ export default function HomeScreen() {
         )}
       </ScrollView>
 
-      <View style={styles.buttonContainer} pointerEvents="box-none">
+      <View style={styles.buttonContainer}>
         {step === 'welcome' && (
           <TouchableOpacity 
             style={styles.primaryButton} 
