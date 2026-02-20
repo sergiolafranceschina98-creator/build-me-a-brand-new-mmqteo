@@ -5,11 +5,11 @@
     "slug": "reality-check",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/reality-check-icon.png",
+    "icon": "./assets/images/app-icon-nmc.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/reality-check-icon.png",
+      "image": "./assets/images/app-icon-nmc.png",
       "resizeMode": "contain",
       "backgroundColor": "#1a1a2e"
     },
@@ -22,14 +22,14 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/reality-check-icon.png",
+        "foregroundImage": "./assets/images/app-icon-nmc.png",
         "backgroundColor": "#1a1a2e"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.RealityCheck"
     },
     "web": {
-      "favicon": "./assets/images/reality-check-icon.png",
+      "favicon": "./assets/images/app-icon-nmc.png",
       "bundler": "metro"
     },
     "plugins": [
