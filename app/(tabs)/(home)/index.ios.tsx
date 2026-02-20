@@ -740,12 +740,13 @@ export default function HomeScreen() {
         )}
       </ScrollView>
 
-      <View style={styles.buttonContainer} pointerEvents="box-none">
+      <View style={styles.buttonContainer}>
         {step === 'welcome' && (
           <TouchableOpacity 
             style={styles.primaryButton} 
             onPress={handleStartDecision}
             activeOpacity={0.7}
+            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Start New Decision</Text>
           </TouchableOpacity>
@@ -757,6 +758,7 @@ export default function HomeScreen() {
             onPress={handleContinueFromType}
             disabled={!canContinueFromType}
             activeOpacity={0.7}
+            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -768,6 +770,7 @@ export default function HomeScreen() {
             onPress={handleContinueFromDefine}
             disabled={!canContinueFromDefine}
             activeOpacity={0.7}
+            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -779,6 +782,7 @@ export default function HomeScreen() {
             onPress={handleContinueFromOptions}
             disabled={!canContinueFromOptions}
             activeOpacity={0.7}
+            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Continue to Questions</Text>
           </TouchableOpacity>
@@ -790,6 +794,7 @@ export default function HomeScreen() {
             onPress={handleContinueFromQuestions}
             disabled={!canContinueFromQuestions}
             activeOpacity={0.7}
+            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Continue to Priorities</Text>
           </TouchableOpacity>
@@ -801,6 +806,7 @@ export default function HomeScreen() {
             onPress={handleAnalyze}
             disabled={!canAnalyze}
             activeOpacity={0.7}
+            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Analyze Decision</Text>
           </TouchableOpacity>
@@ -811,6 +817,7 @@ export default function HomeScreen() {
             style={styles.primaryButton} 
             onPress={handleStartOver}
             activeOpacity={0.7}
+            pointerEvents="auto"
           >
             <Text style={styles.primaryButtonText}>Start New Decision</Text>
           </TouchableOpacity>
@@ -821,6 +828,7 @@ export default function HomeScreen() {
             style={styles.secondaryButton} 
             onPress={handleStartOver}
             activeOpacity={0.7}
+            pointerEvents="auto"
           >
             <Text style={styles.secondaryButtonText}>Start Over</Text>
           </TouchableOpacity>
