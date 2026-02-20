@@ -19,9 +19,11 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSPhotoLibraryUsageDescription": "This app needs access to your photo library.",
-        "NSCameraUsageDescription": "This app needs access to your camera."
+        "NSCameraUsageDescription": "This app needs access to your camera.",
+        "UIRequiresFullScreen": false
       },
-      "icon": "./assets/images/app-icon-vqz.png"
+      "icon": "./assets/images/app-icon-vqz.png",
+      "requireFullScreen": false
     },
     "android": {
       "adaptiveIcon": {
