@@ -52,10 +52,7 @@ export const buttonStyles = StyleSheet.create({
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.3,
-    shadowRadius: 16,
+    boxShadow: `0px 8px 16px ${colors.primary}4D`,
     elevation: 8,
   },
   secondaryButton: {
@@ -132,10 +129,7 @@ export const commonStyles = StyleSheet.create({
     borderRadius: 24,
     padding: 28,
     marginBottom: 20,
-    shadowColor: colors.shadowDark,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 20,
+    boxShadow: `0px 4px 20px ${colors.shadowDark}`,
     elevation: 4,
   },
   section: {
