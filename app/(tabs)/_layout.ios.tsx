@@ -6,7 +6,9 @@ import { Platform } from 'react-native';
 const Stack = createNativeStackNavigator();
 
 export default function TabLayout() {
-  console.log('iOS Tab Layout initialized for iPad support');
+  const isPad = Platform.isPad;
+  
+  console.log('iOS Tab Layout initialized - iPad:', isPad, 'Platform:', Platform.OS);
   
   return (
     <Stack.Navigator
@@ -14,10 +16,14 @@ export default function TabLayout() {
         headerShown: false,
         gestureEnabled: true,
         fullScreenGestureEnabled: true,
-        animation: 'default',
+        animation: 'slide_from_right',
         contentStyle: {
           backgroundColor: 'transparent',
         },
+        ...(isPad && {
+          headerLargeTitle: true,
+          headerLargeTitleShadowVisible: false,
+        }),
       }}
     >
       <Stack.Screen 
@@ -33,7 +39,7 @@ export default function TabLayout() {
           headerShown: true,
           title: 'Profile',
           headerBackTitle: 'Back',
-          headerLargeTitle: Platform.isPad,
+          headerLargeTitle: isPad,
         }}
       />
     </Stack.Navigator>
