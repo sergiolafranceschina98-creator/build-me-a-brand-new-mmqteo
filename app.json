@@ -78,6 +78,9 @@
       "eas": {
         "projectId": "your-project-id"
       }
-    }
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
   }
 }
